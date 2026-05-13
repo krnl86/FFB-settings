@@ -1,0 +1,2616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Settings for Danielkarts Topspeed Custom File for AMS2</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:        #080c10;
+    --surface:   #0d1420;
+    --card:      #111b2a;
+    --border:    #1e3050;
+    --accent:    #00c8ff;
+    --accent2:   #ff5e00;
+    --accent3:   #7bff6a;
+    --text:      #c8dae8;
+    --muted:     #5a7a94;
+    --heading:   #e8f4ff;
+    --label:     #8ab4cc;
+    --val:       #ffffff;
+    --glow:      0 0 16px rgba(0,200,255,0.3);
+    --glow2:     0 0 16px rgba(255,94,0,0.3);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Rajdhani', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── GRID NOISE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image:
+      linear-gradient(rgba(0,200,255,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,200,255,0.025) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── HEADER ── */
+  header {
+    position: relative;
+    background: linear-gradient(135deg, #050a12 0%, #0a1628 50%, #050a12 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 28px 24px 20px;
+    text-align: center;
+    overflow: hidden;
+    z-index: 1;
+  }
+  header::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent), var(--accent2), var(--accent), transparent);
+  }
+
+  .header-badge {
+    display: inline-block;
+    font-family: 'Orbitron', monospace;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    color: var(--accent2);
+    border: 1px solid var(--accent2);
+    padding: 3px 10px;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+  }
+
+  h1 {
+    font-family: 'Orbitron', monospace;
+    font-size: clamp(14px, 3.5vw, 22px);
+    font-weight: 800;
+    color: var(--heading);
+    letter-spacing: 1px;
+    line-height: 1.3;
+    text-shadow: 0 0 30px rgba(0,200,255,0.4);
+  }
+  h1 span { color: var(--accent); }
+
+  .version-tag {
+    display: inline-block;
+    margin-top: 10px;
+    font-family: 'Orbitron', monospace;
+    font-size: 11px;
+    color: var(--accent3);
+    letter-spacing: 2px;
+  }
+
+  .credit {
+    margin-top: 10px;
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .credit a {
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .credit a:hover { color: #fff; border-color: var(--accent); }
+
+  /* ── MAIN ── */
+  main {
+    position: relative;
+    z-index: 1;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 28px 16px 60px;
+  }
+
+  /* ── SELECTOR ── */
+  .selector-wrap {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 20px;
+    margin-bottom: 28px;
+  }
+  .selector-label {
+    font-family: 'Orbitron', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  select {
+    width: 100%;
+    background: var(--card);
+    color: var(--heading);
+    border: 1px solid var(--accent);
+    border-radius: 3px;
+    padding: 12px 14px;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2300c8ff' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    box-shadow: var(--glow);
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  select:focus { border-color: #fff; box-shadow: 0 0 0 2px rgba(0,200,255,0.2); }
+  select option { background: #111b2a; color: #fff; }
+
+  /* ── PLACEHOLDER ── */
+  #placeholder {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--muted);
+    font-size: 17px;
+    letter-spacing: 1px;
+  }
+  #placeholder .icon { font-size: 48px; margin-bottom: 16px; opacity: 0.4; }
+
+  /* ── SETTINGS PANEL ── */
+  #panel { display: none; animation: fadeIn 0.3s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+  .base-title {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+  .base-title h2 {
+    font-family: 'Orbitron', monospace;
+    font-size: clamp(14px, 3vw, 20px);
+    font-weight: 700;
+    color: var(--heading);
+  }
+  .nm-badge {
+    font-family: 'Orbitron', monospace;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--accent2);
+    border: 1px solid var(--accent2);
+    padding: 3px 10px;
+    border-radius: 2px;
+    white-space: nowrap;
+  }
+
+  /* ── IN-GAME TABLE ── */
+  .ingame-section {
+    margin-bottom: 28px;
+  }
+  .section-heading {
+    font-family: 'Orbitron', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: var(--accent2);
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 8px;
+    margin-bottom: 14px;
+  }
+
+  /* ── VEHICLE TABS ── */
+  .vehicle-tabs {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 14px;
+  }
+  .vtab {
+    background: var(--card);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 7px 14px;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: all 0.2s;
+    text-transform: uppercase;
+  }
+  .vtab:hover { border-color: var(--accent); color: var(--accent); }
+  .vtab.active {
+    background: rgba(0,200,255,0.12);
+    border-color: var(--accent);
+    color: var(--accent);
+    box-shadow: var(--glow);
+  }
+
+  /* ── INGAME VALUES GRID ── */
+  .igvals {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+  }
+  @media (max-width: 600px) {
+    .igvals { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  .igval-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 12px 14px;
+    transition: border-color 0.2s;
+  }
+  .igval-card:hover { border-color: var(--accent); }
+  .igval-label {
+    font-size: 11px;
+    letter-spacing: 1px;
+    color: var(--label);
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .igval-value {
+    font-family: 'Orbitron', monospace;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--accent3);
+  }
+
+  /* ── BASE SETTINGS ── */
+  .settings-grid {
+    display: grid;
+    gap: 16px;
+    grid-template-columns: 1fr;
+  }
+
+  .settings-group {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .group-title {
+    background: rgba(0,200,255,0.06);
+    border-bottom: 1px solid var(--border);
+    padding: 8px 16px;
+    font-family: 'Orbitron', monospace;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    color: var(--accent);
+    text-transform: uppercase;
+  }
+  .group-rows { padding: 4px 0; }
+  .setting-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+    padding: 7px 16px;
+    border-bottom: 1px solid rgba(30,48,80,0.5);
+    transition: background 0.15s;
+  }
+  .setting-row:last-child { border-bottom: none; }
+  .setting-row:hover { background: rgba(0,200,255,0.04); }
+  .s-label {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--label);
+    flex: 1;
+    min-width: 0;
+  }
+  .s-value {
+    font-family: 'Orbitron', monospace;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--val);
+    text-align: right;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .s-note {
+    font-size: 11px;
+    color: var(--muted);
+    font-style: italic;
+    width: 100%;
+    padding: 0 16px 6px;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 400;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: 20px;
+    color: var(--muted);
+    font-size: 12px;
+    border-top: 1px solid var(--border);
+    letter-spacing: 1px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-badge">Force Feedback Reference</div>
+  <h1>Settings for <span>Danielkarts</span> Topspeed<br>Custom File for AMS2</h1>
+  <div class="version-tag">✦ Valid for File Version 1.5 only ✦</div>
+  <div class="credit">Custom FFB file by <a href="https://www.overtake.gg/downloads/danielkarts-topspeed-custom-file-1-0-for-8-32nm.81637/updates#resource-update-149837" target="_blank" rel="noopener">Danielkart @ Overtake.gg</a></div>
+</header>
+
+<main>
+  <div class="selector-wrap">
+    <div class="selector-label">⬡ Select your wheel base</div>
+    <select id="baseSelect" onchange="showBase(this.value)">
+      <option value="">— Choose a base —</option>
+    </select>
+  </div>
+
+  <div id="placeholder">
+    <div class="icon">🎮</div>
+    Select your wheel base above to view FFB settings
+  </div>
+
+  <div id="panel">
+    <div class="base-title">
+      <h2 id="baseNameTitle"></h2>
+      <span class="nm-badge" id="baseNmBadge"></span>
+    </div>
+
+    <div class="ingame-section">
+      <div class="section-heading">▸ In-Game Settings</div>
+      <div class="vehicle-tabs" id="vehicleTabs"></div>
+      <div class="igvals" id="igGrid"></div>
+    </div>
+
+    <div class="ingame-section">
+      <div class="section-heading">▸ Base / Hardware Settings</div>
+      <div class="settings-grid" id="settingsGrid"></div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  Valid for Danielkarts Topspeed Custom File v1.5 &nbsp;·&nbsp; rFuktor 5.0.1 by Karsten with Shadak &amp; Panos
+</footer>
+
+<script>
+// ══════════════════════════════════════════════════════════════════════════════
+// DATA — all 60 bases, sorted alphabetically
+// ingame: [ [std_gain, std_lfb, std_fx, std_dmp], [kart...], [offroad...], [street...] ]
+// groups: [ { title, rows: [ {label, value, note?} ] } ]
+// ══════════════════════════════════════════════════════════════════════════════
+const BASES = [
+  {
+    id: "assetek_forte",
+    brand: "Assetek",
+    name: "Forte",
+    nm: "18Nm",
+    ingame: [
+      {gain:"60%", lfb:"0%", fx:"22–25%", damping:"28%"},
+      {gain:"65%", lfb:"0%", fx:"20%",    damping:"40%"},
+      {gain:"52%", lfb:"0%", fx:"26%",    damping:"40%"},
+      {gain:"52%", lfb:"0%", fx:"18%",    damping:"40%"},
+    ],
+    groups: [
+      { title: "Base Settings", rows: [
+        {label:"Steering range", value:"900"},
+        {label:"Bumpstop Hardness", value:"Medium"},
+        {label:"Bumpstop range", value:"0"},
+        {label:"High-Frequency Limit", value:"3300"},
+        {label:"Damping", value:"0%"},
+        {label:"Friction", value:"8%"},
+        {label:"Inertia", value:"OFF", note:"Can be increased for very light wheels"},
+        {label:"Cornering Force Assist", value:"1", note:"Reduces high forces in curves, increases fine detail. For Rally Cars: 2 or 3"},
+        {label:"Overall Force", value:"10Nm", note:"10Nm is sweet spot — increase or decrease to taste"},
+        {label:"Torque Behavior Prediction", value:"0"},
+        {label:"Torque Acceleration Limit", value:"Max"},
+        {label:"Anti-Oscillation", value:"0%"},
+      ]},
+    ]
+  },
+  {
+    id: "assetek_initium_5",
+    brand: "Assetek",
+    name: "Initium",
+    nm: "5Nm",
+    ingame: [
+      {gain:"64%", lfb:"0%", fx:"22–25%", damping:"28%"},
+      {gain:"65%", lfb:"0%", fx:"20%",    damping:"40%"},
+      {gain:"55%", lfb:"0%", fx:"26%",    damping:"40%"},
+      {gain:"55%", lfb:"0%", fx:"18%",    damping:"40%"},
+    ],
+    groups: [
+      { title: "Base Settings", rows: [
+        {label:"Steering range", value:"900"},
+        {label:"Bumpstop Hardness", value:"Medium"},
+        {label:"Bumpstop range", value:"0"},
+        {label:"High-Frequency Limit", value:"No limit"},
+        {label:"Damping", value:"0%"},
+        {label:"Friction", value:"12%"},
+        {label:"Inertia", value:"0%"},
+        {label:"Cornering Force Assist", value:"0%"},
+        {label:"Overall Force", value:"5Nm"},
+        {label:"Torque Behavior Prediction", value:"OFF"},
+        {label:"Torque Acceleration Limit", value:"2.5/ms"},
+        {label:"Anti-Oscillation", value:"0%"},
+      ]},
+    ]
+  },
+  {
+    id: "assetek_initium_8",
+    brand: "Assetek",
+    name: "Initium (Boost-Kit)",
+    nm: "8Nm",
+    ingame: [
+      {gain:"60%", lfb:"0%", fx:"22–25%", damping:"28%"},
+      {gain:"65%", lfb:"0%", fx:"20%",    damping:"40%"},
+      {gain:"52%", lfb:"0%", fx:"26%",    damping:"40%"},
+      {gain:"52%", lfb:"0%", fx:"18%",    damping:"40%"},
+    ],
+    groups: [
+      { title: "Base Settings", rows: [
+        {label:"Steering range", value:"900"},
+        {label:"Bumpstop Hardness", value:"Medium"},
+        {label:"Bumpstop range", value:"0"},
+        {label:"High-Frequency Limit", value:"No limit"},
+        {label:"Damping", value:"0%"},
+        {label:"Friction", value:"10%"},
+        {label:"Inertia", value:"0%"},
+        {label:"Cornering Force Assist", value:"0%"},
+        {label:"Overall Force", value:"8Nm"},
+        {label:"Torque Behavior Prediction", value:"OFF"},
+        {label:"Torque Acceleration Limit", value:"2.5/ms"},
+        {label:"Anti-Oscillation", value:"0%"},
+      ]},
+    ]
+  },
+  {
+    id: "assetek_invicta",
+    brand: "Assetek",
+    name: "Invicta",
+    nm: "27Nm",
+    ingame: [
+      {gain:"60%", lfb:"0%", fx:"22–25%", damping:"28%"},
+      {gain:"65%", lfb:"0%", fx:"20%",    damping:"40%"},
+      {gain:"52%", lfb:"0%", fx:"26%",    damping:"40%"},
+      {gain:"52%", lfb:"0%", fx:"18%",    damping:"40%"},
+    ],
+    groups: [
+      { title: "Base Settings", rows: [
+        {label:"Steering range", value:"900"},
+        {label:"Bumpstop Hardness", value:"Medium"},
+        {label:"Bumpstop range", value:"0"},
+        {label:"High-Frequency Limit", value:"3300"},
+        {label:"Damping", value:"0%"},
+        {label:"Friction", value:"8%"},
+        {label:"Inertia", value:"OFF", note:"Can be increased for very light wheels"},
+        {label:"Cornering Force Assist", value:"1", note:"Reduces high forces in curves, increases fine detail. For Rally Cars: 2 or 3"},
+        {label:"Overall Force", value:"10Nm", note:"10Nm is sweet spot — increase or decrease to taste"},
+        {label:"Torque Behavior Prediction", value:"0"},
+        {label:"Torque Acceleration Limit", value:"Max"},
+        {label:"Anti-Oscillation", value:"0%"},
+      ]},
+    ]
+  },
+  {
+    id: "assetek_la_prima",
+    brand: "Assetek",
+    name: "La Prima",
+    nm: "12Nm",
+    ingame: [
+      {gain:"60%", lfb:"0%", fx:"22–25%", damping:"28%"},
+      {gain:"65%", lfb:"0%", fx:"20%",    damping:"40%"},
+      {gain:"52%", lfb:"0%", fx:"26%",    damping:"40%"},
+      {gain:"52%", lfb:"0%", fx:"18%",    damping:"40%"},
+    ],
+    groups: [
+      { title: "Base Settings", rows: [
+        {label:"Steering range", value:"900"},
+        {label:"Bumpstop Hardness", value:"Medium"},
+        {label:"Bumpstop range", value:"0"},
+        {label:"High-Frequency Limit", value:"3300"},
+        {label:"Damping", value:"0%"},
+        {label:"Friction", value:"8%"},
+        {label:"Inertia", value:"OFF", note:"Can be increased for very light wheels"},
+        {label:"Cornering Force Assist", value:"1", note:"Reduces high forces in curves, increases fine detail"},
+        {label:"Overall Force", value:"10Nm", note:"10Nm is sweet spot — increase or decrease to taste"},
+        {label:"Torque Behavior Prediction", value:"0"},
+        {label:"Torque Acceleration Limit", value:"Max"},
+        {label:"Anti-Oscillation", value:"0%"},
+      ]},
+    ]
+  },
+  {
+    id: "cammus_c5",
+    brand: "Cammus",
+    name: "C5",
+    nm: "5Nm",
+    ingame: [
+      {gain:"62%", lfb:"0%", fx:"22–25%", damping:"28%"},
+      {gain:"65%", lfb:"0%", fx:"20%",    damping:"40%"},
+      {gain:"54%", lfb:"0%", fx:"26%",    damping:"40%"},
+      {gain:"54%", lfb:"0%", fx:"18%",    damping:"40%"},
+    ],
+    groups: [
+      { title: "Base Settings", rows: [
+        {label:"Steering Range", value:"900"},
+        {label:"Power", value:"100%"},
+        {label:"Natural Damping", value:"0%"},
+        {label:"Natural Friction", value:"10%"},
+        {label:"Natural Inertia", value:"0%", note:"Can be increased for very light wheels"},
+        {label:"Idle Spring", value:"0%"},
+      ]},
+      { title: "Game Effects", rows: [
+        {label:"Effects Intensity", value:"100%"},
+        {label:"CF Filter", value:"50%"},
+        {label:"Q Filter", value:"50%"},
+        {label:"Game Friction", value:"50%"},
+        {label:"Game Spring", value:"50%"},
+      ]},
+      { title: "Assistance", rows: [
+        {label:"FFB Invert", value:"OFF"},
+        {label:"Hands-off Protection", value:"Disable"},
+        {label:"End Stop Strength", value:"Hard"},
+        {label:"High Speed Stability Assist", value:"All Linear"},
+      ]},
+      { title: "Overheat Protection", rows: [
+        {label:"Temperature Threshold", value:"85°C"},
+      ]},
+    ]
+  },
+  {
+    id: "cammus_c12",
+    brand: "Cammus",
+    name: "C12",
+    nm: "12Nm",
+    ingame: [
+      {gain:"60%", lfb:"0%", fx:"22–25%", damping:"28%"},
+      {gain:"65%", lfb:"0%", fx:"20%",    damping:"40%"},
+      {gain:"52%", lfb:"0%", fx:"26%",    damping:"40%"},
+      {gain:"52%", lfb:"0%", fx:"18%",    damping:"40%"},
+    ],
+    groups: [
+      { title: "Base Settings", rows: [
+        {label:"Steering Range", value:"900"},
+        {label:"Power", value:"84%", note:"10Nm is sweet spot — increase or decrease to taste"},
+        {label:"Natural Damping", value:"0%"},
+        {label:"Natural Friction", value:"8%"},
+        {label:"Natural Inertia", value:"0%", note:"Can be increased for very light wheels"},
+        {label:"Idle Spring", value:"0%"},
+      ]},
+      { title: "Game Effects", rows: [
+        {label:"Effects Intensity", value:"100%"},
+        {label:"CF Filter", value:"50%"},
+        {label:"Q Filter", value:"50%"},
+        {label:"Game Friction", value:"50%"},
+        {label:"Game Spring", value:"50%"},
+      ]},
+      { title: "Assistance", rows: [
+        {label:"FFB Invert", value:"OFF"},
+        {label:"Hands-off Protection", value:"Disable"},
+        {label:"End Stop Strength", value:"Hard"},
+        {label:"High Speed Stability Assist", value:"All Linear"},
+      ]},
+      { title: "Overheat Protection", rows: [
+        {label:"Temperature Threshold", value:"85°C"},
+      ]},
+    ]
+  },
+  {
+    id: "cammus_c15",
+    brand: "Cammus",
+    name: "C15",
+    nm: "15Nm",
+    ingame: [
+      {gain:"60%", lfb:"0%", fx:"22–25%", damping:"28%"},
+      {gain:"65%", lfb:"0%", fx:"20%",    damping:"40%"},
+      {gain:"52%", lfb:"0%", fx:"26%",    damping:"40%"},
+      {gain:"52%", lfb:"0%", fx:"18%",    damping:"40%"},
+    ],
+    groups: [
+      { title: "Base Settings", rows: [
+        {label:"Steering Range", value:"900"},
+        {label:"Power", value:"67%", note:"10Nm is sweet spot — increase or decrease to taste"},
+        {label:"Natural Damping", value:"0%"},
+        {label:"Natural Friction", value:"8%"},
+        {label:"Natural Inertia", value:"0%", note:"Can be increased for very light wheels"},
+        {label:"Idle Spring", value:"0%"},
+      ]},
+      { title: "Game Effects", rows: [
+        {label:"Effects Intensity", value:"100%"},
+        {label:"CF Filter", value:"50%"},
+        {label:"Q Filter", value:"50%"},
+        {label:"Game Friction", value:"50%"},
+        {label:"Game Spring", value:"50%"},
+      ]},
+      { title: "Assistance", rows: [
+        {label:"FFB Invert", value:"OFF"},
+        {label:"Hands-off Protection", value:"Disable"},
+        {label:"End Stop Strength", value:"Hard"},
+        {label:"High Speed Stability Assist", value:"All Linear"},
+      ]},
+      { title: "Overheat Protection", rows: [
+        {label:"Temperature Threshold", value:"85°C"},
+      ]},
+    ]
+  },
+  {
+    id: "conspit_ares",
+    brand: "Conspit",
+    name: "Ares",
+    nm: "12Nm",
+    ingame: [
+      {gain:"60%", lfb:"0%", fx:"22–25%", damping:"28%"},
+      {gain:"65%", lfb:"0%", fx:"20%",    damping:"40%"},
+      {gain:"52%", lfb:"0%", fx:"26%",    damping:"40%"},
+      {gain:"52%", lfb:"0%", fx:"18%",    damping:"40%"},
+    ],
+    groups: [
+      { title: "Basic Settings", rows: [
+        {label:"High Torque Mode", value:"ON"},
+        {label:"Range", value:"900"},
+        {label:"Max Force", value:"12Nm"},
+        {label:"Effects Gain", value:"84%", note:"10Nm is sweet spot — increase or decrease to taste"},
+        {label:"Mechanical Friction", value:"8%"},
+        {label:"Mechanical Damper", value:"0%"},
+        {label:"Stop Feel", value:"Stiff"},
+        {label:"Mechanical Inertia", value:"0%"},
+        {label:"Filter Frequency", value:"60–300 Hz", note:"Find the ideal frequency to eliminate high-frequency sounds"},
+        {label:"Filter Sharpness", value:"100%"},
+        {label:"Rotation Speed", value:"0%"},
+      ]},
+      { title: "Game Settings — DirectInput Effects", rows: [
+        {label:"Friction", value:"0%"},
+        {label:"Damper", value:"0%"},
+        {label:"Spring", value:"0%"},
+        {label:"Inertia", value:"0%"},
+        {label:"Centering Force", value:"0%"},
+        {label:"Invert Axis", value:"OFF"},
+        {label:"Invert FFB", value:"OFF"},
+      ]},
+    ]
+  },
+  {
+    id: "conspit_ares_apex",
+    brand: "Conspit",
+    name: "Ares Apex",
+    nm: "8Nm",
+    ingame: [
+      {gain:"60%", lfb:"0%", fx:"22–25%", damping:"28%"},
+      {gain:"65%", lfb:"0%", fx:"20%",    damping:"40%"},
+      {gain:"52%", lfb:"0%", fx:"26%",    damping:"40%"},
+      {gain:"52%", lfb:"0%", fx:"18%",    damping:"40%"},
+    ],
+    groups: [
+      { title: "Basic Settings", rows: [
+        {label:"High Torque Mode", value:"ON"},
+        {label:"Range", value:"900"},
+        {label:"Max Force", value:"8Nm"},
+        {label:"Effects Gain", value:"100%"},
+        {label:"Mechanical Friction", value:"8%"},
+        {label:"Mechanical Damper", value:"0%"},
+        {label:"Stop Feel", value:"Stiff"},
+        {label:"Mechanical Inertia", value:"0%"},
+        {label:"Filter Frequency", value:"60–300 Hz", note:"Find the ideal frequency to eliminate high-frequency sounds"},
+        {label:"Filter Sharpness", value:"100%"},
+        {label:"Rotation Speed", value:"0%"},
+      ]},
+      { title: "Game Settings — DirectInput Effects", rows: [
+        {label:"Friction", value:"0%"},
+        {label:"Damper", value:"0%"},
+        {label:"Spring", value:"0%"},
+        {label:"Inertia", value:"0%"},
+        {label:"Centering Force", value:"0%"},
+        {label:"Invert Axis", value:"OFF"},
+        {label:"Invert FFB", value:"OFF"},
+      ]},
+    ]
+  },
+  {
+    id: "conspit_ares_platinum",
+    brand: "Conspit",
+    name: "Ares Platinum",
+    nm: "20Nm",
+    ingame: [
+      {gain:"60%", lfb:"0%", fx:"22–25%", damping:"28%"},
+      {gain:"65%", lfb:"0%", fx:"20%",    damping:"40%"},
+      {gain:"52%", lfb:"0%", fx:"26%",    damping:"40%"},
+      {gain:"52%", lfb:"0%", fx:"18%",    damping:"40%"},
+    ],
+    groups: [
+      { title: "Basic Settings", rows: [
+        {label:"High Torque Mode", value:"ON"},
+        {label:"Range", value:"900"},
+        {label:"Max Force", value:"20Nm"},
+        {label:"Effects Gain", value:"50%", note:"10Nm is sweet spot — increase or decrease to taste"},
+        {label:"Mechanical Friction", value:"8%"},
+        {label:"Mechanical Damper", value:"0%"},
+        {label:"Stop Feel", value:"Stiff"},
+        {label:"Mechanical Inertia", value:"0%"},
+        {label:"Filter Frequency", value:"60–300 Hz", note:"Find the ideal frequency to eliminate high-frequency sounds"},
+        {label:"Filter Sharpness", value:"100%"},
+        {label:"Rotation Speed", value:"0%"},
+      ]},
+      { title: "Game Settings — DirectInput Effects", rows: [
+        {label:"Friction", value:"0%"},
+        {label:"Damper", value:"0%"},
+        {label:"Spring", value:"0%"},
+        {label:"Inertia", value:"0%"},
+        {label:"Centering Force", value:"0%"},
+        {label:"Invert Axis", value:"OFF"},
+        {label:"Invert FFB", value:"OFF"},
+      ]},
+    ]
+  },
+  {
+    id: "fanatec_clubsport_dd",
+    brand: "Fanatec",
+    name: "Clubsport DD",
+    nm: "12Nm",
+    ingame: [
+      {gain:"60%", lfb:"0%", fx:"22–25%", damping:"28%"},
+      {gain:"65%", lfb:"0%", fx:"20%",    damping:"40%"},
+      {gain:"52%", lfb:"0%", fx:"26%",    damping:"40%"},
+      {gain:"52%", lfb:"0%", fx:"18%",    damping:"40%"},
+    ],
+    groups: [
+      { title: "Base / Fanalab", rows: [
+        {label:"SEN", value:"Auto"},
+        {label:"FFB", value:"84%", note:"10Nm is sweet spot — increase or decrease to taste"},
+        {label:"FFS", value:"Peak"},
+        {label:"NDP", value:"0%"},
+        {label:"NFR", value:"8%"},
+        {label:"NIN", value:"0%", note:"Can be increased for very light wheels"},
+        {label:"INT", value:"1–3"},
+        {label:"FEI", value:"60%–90%"},
+        {label:"FOR", value:"100%"},
+        {label:"SPR", value:"100%"},
+        {label:"DPR", value:"100%"},
+        {label:"BLI", value:"OFF"},
+      ]},
+    ]
+  },
+  {
+    id: "fanatec_clubsport_ddplus",
+    brand: "Fanatec",
+    name: "Clubsport DD+",
+    nm: "15Nm",
+    ingame: [
+      {gain:"60%", lfb:"0%", fx:"22–25%", damping:"28%"},
+      {gain:"65%", lfb:"0%", fx:"20%",    damping:"40%"},
+      {gain:"52%", lfb:"0%", fx:"26%",    damping:"40%"},
+      {gain:"52%", lfb:"0%", fx:"18%",    damping:"40%"},
+    ],
+    groups: [
+      { title: "Base / Fanalab", rows: [
+        {label:"SEN", value:"Auto"},
+        {label:"FFB", value:"67%", note:"10Nm is sweet spot — increase or decrease to taste"},
+        {label:"FFS", value:"Peak"},
+        {label:"NDP", value:"0%"},
+        {label:"NFR", value:"8%"},
+        {label:"NIN", value:"0%", note:"Can be increased for very light wheels"},
+        {label:"INT", value:"1–3"},
+        {label:"FEI", value:"60%–90%"},
+        {label:"FOR", value:"100%"},
+        {label:"SPR", value:"100%"},
+        {label:"DPR", value:"100%"},
+        {label:"BLI", value:"OFF"},
+      ]},
+    ]
+  },
+  {
+    id: "fanatec_csl_dd_boost",
+    brand: "Fanatec",
+    name: "CSL DD (Boost)",
+    nm: "8Nm",
+    ingame: [
+      {gain:"60%", lfb:"0%", fx:"22–25%", damping:"28%"},
+      {gain:"65%", lfb:"0%", fx:"20%",    damping:"40%"},
+      {gain:"52%", lfb:"0%", fx:"26%",    damping:"40%"},
+      {gain:"52%", lfb:"0%", fx:"18%",    damping:"40%"},
+    ],
+    groups: [
+      { title: "Base / Fanalab", rows: [
+        {label:"SEN", value:"Auto"},
+        {label:"FFB", value:"100%"},
+        {label:"FFS", value:"Peak"},
+        {label:"NDP", value:"0%"},
+        {label:"NFR", value:"8%"},
+        {label:"NIN", value:"0%", note:"Can be increased for very light wheels"},
+        {label:"INT", value:"1–3"},
+        {label:"FEI", value:"60%–90%"},
+        {label:"FOR", value:"100%"},
+        {label:"SPR", value:"100%"},
+        {label:"DPR", value:"100%"},
+        {label:"BLI", value:"OFF"},
+      ]},
+    ]
+  },
+  {
+    id: "fanatec_csl_dd_no_boost",
+    brand: "Fanatec",
+    name: "CSL DD (No Boost)",
+    nm: "5Nm",
+    ingame: [
+      {gain:"62%", lfb:"0%", fx:"22–25%", damping:"28%"},
+      {gain:"65%", lfb:"0%", fx:"20%",    damping:"40%"},
+      {gain:"54%", lfb:"0%", fx:"26%",    damping:"40%"},
+      {gain:"54%", lfb:"0%", fx:"18%",    damping:"40%"},
+    ],
+    groups: [
+      { title: "Base / Fanalab", rows: [
+        {label:"SEN", value:"Auto"},
+        {label:"FFB", value:"100%"},
+        {label:"FFS", value:"Peak"},
+        {label:"NDP", value:"0%"},
+        {label:"NFR", value:"8%"},
+        {label:"NIN", value:"0%"},
+        {label:"INT", value:"1–3"},
+        {label:"FEI", value:"60%–90%"},
+        {label:"FOR", value:"100%"},
+        {label:"SPR", value:"100%"},
+        {label:"DPR", value:"100%"},
+        {label:"BLI", value:"OFF"},
+      ]},
+    ]
+  },
+  {
+    id: "fanatec_csl_elite",
+    brand: "Fanatec",
+    name: "CSL Elite",
+    nm: "6.3Nm",
+    ingame: [
+      {gain:"60%", lfb:"0%", fx:"25–26%", damping:"28%"},
+      {gain:"65%", lfb:"0%", fx:"23%",    damping:"35%"},
+      {gain:"52%", lfb:"0%", fx:"28%",    damping:"35%"},
+      {gain:"52%", lfb:"0%", fx:"20%",    damping:"35%"},
+    ],
+    groups: [
+      { title: "Base / Fanalab", rows: [
+        {label:"SEN", value:"Auto"},
+        {label:"FFB", value:"90–100%"},
+        {label:"DRI", value:"-1 or 0"},
+        {label:"FEI", value:"60%–80%"},
+        {label:"FOR", value:"100%"},
+        {label:"SPR", value:"OFF"},
+        {label:"DPR", value:"OFF"},
+      ]},
+    ]
+  },
+  {
+    id: "fanatec_csw_v1",
+    brand: "Fanatec",
+    name: "CSW V1",
+    nm: "5Nm",
+    ingame: [
+      {gain:"60%", lfb:"0%", fx:"30%",    damping:"28%"},
+      {gain:"65%", lfb:"0%", fx:"25%",    damping:"35%"},
+      {gain:"52%", lfb:"0%", fx:"30%",    damping:"35%"},
+      {gain:"52%", lfb:"0%", fx:"23%",    damping:"35%"},
+    ],
+    groups: [
+      { title: "Base / Fanalab", rows: [
+        {label:"SEN", value:"Auto"},
+        {label:"FFB", value:"100%"},
+        {label:"DRI", value:"1 or 2"},
+        {label:"FEI", value:"60%–70%"},
+        {label:"FOR", value:"100%"},
+        {label:"SPR", value:"OFF"},
+        {label:"DPR", value:"OFF"},
+      ]},
+    ]
+  },
+  {
+    id: "fanatec_csw25",
+    brand: "Fanatec",
+    name: "CSW 2.5",
+    nm: "8Nm",
+    ingame: [
+      {gain:"60%", lfb:"0%", fx:"25%",    damping:"28%"},
+      {gain:"65%", lfb:"0%", fx:"20%",    damping:"35%"},
+      {gain:"52%", lfb:"0%", fx:"26%",    damping:"35%"},
+      {gain:"52%", lfb:"0%", fx:"18%",    damping:"35%"},
+    ],
+    groups: [
+      { title: "Base / Fanalab", rows: [
+        {label:"SEN", value:"Auto"},
+        {label:"FFB", value:"80–100%"},
+        {label:"DRI", value:"-1 or 0"},
+        {label:"FEI", value:"60%–80%"},
+        {label:"FOR", value:"100%"},
+        {label:"SPR", value:"OFF"},
+        {label:"DPR", value:"OFF"},
+      ]},
+    ]
+  },
+  {
+    id: "fanatec_dd_new",
+    brand: "Fanatec",
+    name: "Podium DD (New Gen 2026)",
+    nm: "25Nm",
+    ingame: [
+      {gain:"60%", lfb:"0%", fx:"22–25%", damping:"28%"},
+      {gain:"65%", lfb:"0%", fx:"20%",    damping:"40%"},
+      {gain:"52%", lfb:"0%", fx:"26%",    damping:"40%"},
+      {gain:"52%", lfb:"0%", fx:"18%",    damping:"40%"},
+    ],
+    groups: [
+      { title: "Tuning Mode: Standard Custom", rows: [
+        {label:"SEN", value:"Auto"},
+        {label:"FFB", value:"40%", note:"10Nm is sweet spot — increase or decrease to taste"},
+        {label:"NDP", value:"0%"},
+        {label:"FUL", value:"0%", note:"No FullForce"},
+      ]},
+      { title: "Tuning Mode: Advanced Setup1", rows: [
+        {label:"SEN", value:"Auto"},
+        {label:"FFB", value:"40%", note:"10Nm is sweet spot — increase or decrease to taste"},
+        {label:"FUL", value:"0%", note:"No FullForce"},
+        {label:"NDP", value:"0%"},
+        {label:"NFR", value:"8%"},
+        {label:"NIN", value:"0%", note:"Can be increased for very light wheels"},
+        {label:"INT", value:"1–3"},
+        {label:"FEI", value:"60%–90%"},
+        {label:"FOR", value:"100%"},
+        {label:"SPR", value:"100%"},
+        {label:"DPR", value:"100%"},
+      ]},
+    ]
+  },
+  {
+    id: "fanatec_podium_dd1",
+    brand: "Fanatec",
+    name: "Podium DD1",
+    nm: "20Nm",
+    ingame: [
+      {gain:"60%", lfb:"0%", fx:"22–25%", damping:"28%"},
+      {gain:"65%", lfb:"0%", fx:"20%",    damping:"40%"},
+      {gain:"52%", lfb:"0%", fx:"26%",    damping:"40%"},
+      {gain:"52%", lfb:"0%", fx:"18%",    damping:"40%"},
+    ],
+    groups: [
+      { title: "Base / Fanalab", rows: [
+        {label:"SEN", value:"Auto"},
+        {label:"FFB", value:"50%", note:"10Nm is sweet spot — increase or decrease to taste"},
+        {label:"FFS", value:"Peak"},
+        {label:"NDP", value:"0%"},
+        {label:"NFR", value:"8%"},
+        {label:"NIN", value:"0%", note:"Can be increased for very light wheels"},
+        {label:"INT", value:"OFF"},
+        {label:"FEI", value:"20%–30%"},
+        {label:"FOR", value:"100%"},
+        {label:"SPR", value:"100%"},
+        {label:"DPR", value:"100%"},
+        {label:"BLI", value:"OFF"},
+      ]},
+    ]
+  },
+  {
+    id: "fanatec_podium_dd2",
+    brand: "Fanatec",
+    name: "Podium DD2",
+    nm: "25Nm",
+    ingame: [
+      {gain:"60%", lfb:"0%", fx:"22–25%", damping:"28%"},
+      {gain:"65%", lfb:"0%", fx:"20%",    damping:"40%"},
+      {gain:"52%", lfb:"0%", fx:"26%",    damping:"40%"},
+      {gain:"52%", lfb:"0%", fx:"18%",    damping:"40%"},
+    ],
+    groups: [
+      { title: "Base / Fanalab", rows: [
+        {label:"SEN", value:"Auto"},
+        {label:"FFB", value:"40%", note:"10Nm is sweet spot — increase or decrease to taste"},
+        {label:"FFS", value:"Peak"},
+        {label:"NDP", value:"0%"},
+        {label:"NFR", value:"8%"},
+        {label:"NIN", value:"0%", note:"Can be increased for very light wheels"},
+        {label:"INT", value:"OFF"},
+        {label:"FEI", value:"20%–30%"},
+        {label:"FOR", value:"100%"},
+        {label:"SPR", value:"100%"},
+        {label:"DPR", value:"100%"},
+        {label:"BLI", value:"OFF"},
+      ]},
+    ]
+  },
+  {
+    id: "logitech_gpro",
+    brand: "Logitech",
+    name: "G Pro",
+    nm: "11Nm",
+    ingame: [
+      {gain:"60%", lfb:"0%", fx:"22–25%", damping:"28%"},
+      {gain:"65%", lfb:"0%", fx:"20%",    damping:"40%"},
+      {gain:"52%", lfb:"0%", fx:"26%",    damping:"40%"},
+      {gain:"52%", lfb:"0%", fx:"18%",    damping:"40%"},
+    ],
+    groups: [
+      { title: "Base Settings", rows: [
+        {label:"Operating Angle", value:"900"},
+        {label:"Dampener", value:"0"},
+        {label:"Strength", value:"10Nm", note:"10Nm is sweet spot — increase or decrease to taste"},
+        {label:"Force Feedback Filter", value:"0–8", note:"Test different levels to achieve the best result"},
+      ]},
+    ]
+  },
+  {
+    id: "moza_r5_v2",
+    brand: "Moza",
+    name: "R5 V2",
+    nm: "5Nm",
+    ingame: [
+      {gain:"60%", lfb:"0%", fx:"22–25%", damping:"28%"},
+      {gain:"65%", lfb:"0%", fx:"20%",    damping:"40%"},
+      {gain:"52%", lfb:"0%", fx:"26%",    damping:"40%"},
+      {gain:"52%", lfb:"0%", fx:"18%",    damping:"40%"},
+    ],
+    groups: [
+      { title: "Angle & Limit", rows: [
+        {label:"Steering Angle Sync", value:"ON"},
+        {label:"Soft Limit Stiffness", value:"10"},
+        {label:"Soft Limit Strength", value:"Hard"},
+        {label:"Soft Limit Game Force Strength", value:"On"},
+      ]},
+      { title: "Handling Feel", rows: [
+        {label:"Game FFB Intensity", value:"100%", note:"Depending on car"},
+        {label:"Professional Game FFB Intensity", value:"100%", note:"Depending on car"},
+        {label:"Maximum Output Torque Limit", value:"90–95%"},
+        {label:"Force Feedback Reversal", value:"Off"},
+        {label:"Force Feedback Interpolation", value:"0"},
+        {label:"FFB Center Deadzone Compensation", value:"0"},
+        {label:"Gear Shift Vibration Intensity", value:"0–5", note:"According to personal taste"},
+        {label:"Maximum Wheel", value:"100%"},
+        {label:"Hands-Off Protection", value:"Off", note:"Do NOT set to On — can cause FFB anomalies"},
+        {label:"Maximum Wheel Speed", value:"100%"},
+        {label:"Performance Output", value:"Full"},
+      ]},
+      { title: "Base Force Effects", rows: [
+        {label:"Natural Damping", value:"0%"},
+        {label:"Natural Friction", value:"8%"},
+        {label:"Natural Inertia", value:"200%"},
+        {label:"Wheel Spring Strength", value:"0%"},
+        {label:"Speed-dependent Damping", value:"0%"},
+        {label:"Start Point Speed-dependent Damping", value:"0 km/h"},
+      ]},
+      { title: "Game Force Effects", rows: [
+        {label:"Game Spring", value:"0%"},
+        {label:"Game Damping", value:"0%"},
+        {label:"Game Inertia", value:"0%"},
+        {label:"Game Friction", value:"0%"},
+      ]},
+      { title: "FFB Curve & Equalizer", rows: [
+        {label:"FFB Effect Equalizer", value:"All 100% (linear)"},
+        {label:"Base FFB Curve", value:"Linear"},
+      ]},
+    ]
+  },
+  {
+    id: "moza_r9_v2",
+    brand: "Moza",
+    name: "R9 V2",
+    nm: "9Nm",
+    ingame: [
+      {gain:"60%", lfb:"0%", fx:"22–25%", damping:"28%"},
+      {gain:"65%", lfb:"0%", fx:"20%",    damping:"40%"},
+      {gain:"52%", lfb:"0%", fx:"26%",    damping:"40%"},
+      {gain:"52%", lfb:"0%", fx:"18%",    damping:"40%"},
+    ],
+    groups: [
+      { title: "Angle & Limit", rows: [
+        {label:"Steering Angle Sync", value:"ON"},
+        {label:"Soft Limit Stiffness", value:"7"},
+        {label:"Soft Limit Strength", value:"Hard"},
+        {label:"Soft Limit Game Force Strength", value:"On"},
+      ]},
+      { title: "Handling Feel", rows: [
+        {label:"Game FFB Intensity", value:"100%"},
+        {label:"Professional Game FFB Intensity", value:"100%"},
+        {label:"Maximum Output Torque Limit", value:"90%"},
+        {label:"Force Feedback Reversal", value:"Off"},
+        {label:"Force Feedback Interpolation", value:"0"},
+        {label:"FFB Center Deadzone Compensation", value:"0"},
+        {label:"Gear Shift Vibration Intensity", value:"0–5", note:"According to personal taste"},
+        {label:"Maximum Wheel", value:"100%"},
+        {label:"Hands-Off Protection", value:"Off", note:"Do NOT set to On — can cause FFB anomalies"},
+        {label:"Maximum Wheel Speed", value:"100%"},
+        {label:"Performance Output", value:"Full"},
+      ]},
+      { title: "Base Force Effects", rows: [
+        {label:"Natural Damping", value:"0%"},
+        {label:"Natural Friction", value:"8%"},
+        {label:"Natural Inertia", value:"200%"},
+        {label:"Wheel Spring Strength", value:"0%"},
+        {label:"Speed-dependent Damping", value:"0%"},
+        {label:"Start Point Speed-dependent Damping", value:"0 km/h"},
+      ]},
+      { title: "Game Force Effects", rows: [
+        {label:"Game Spring", value:"0%"},
+        {label:"Game Damping", value:"0%"},
+        {label:"Game Inertia", value:"0%"},
+        {label:"Game Friction", value:"0%"},
+      ]},
+      { title: "FFB Curve & Equalizer", rows: [
+        {label:"FFB Effect Equalizer", value:"All 100% (linear)"},
+        {label:"Base FFB Curve", value:"Linear"},
+      ]},
+    ]
+  },
+  {
+    id: "moza_r12_v2",
+    brand: "Moza",
+    name: "R12 V2",
+    nm: "12Nm",
+    ingame: [
+      {gain:"60%", lfb:"0%", fx:"22–25%", damping:"28%"},
+      {gain:"65%", lfb:"0%", fx:"20%",    damping:"40%"},
+      {gain:"52%", lfb:"0%", fx:"26%",    damping:"40%"},
+      {gain:"52%", lfb:"0%", fx:"18%",    damping:"40%"},
+    ],
+    groups: [
+      { title: "Angle & Limit", rows: [
+        {label:"Steering Angle Sync", value:"ON"},
+        {label:"Soft Limit Stiffness", value:"7"},
+        {label:"Soft Limit Strength", value:"Hard"},
+        {label:"Soft Limit Game Force Strength", value:"On"},
+      ]},
+      { title: "Handling Feel", rows: [
+        {label:"Game FFB Intensity", value:"84%", note:"10Nm is sweet spot — increase or decrease to taste"},
+        {label:"Professional Game FFB Intensity", value:"84%"},
+        {label:"Maximum Output Torque Limit", value:"90%"},
+        {label:"Force Feedback Reversal", value:"Off"},
+        {label:"Force Feedback Interpolation", value:"0"},
+        {label:"FFB Center Deadzone Compensation", value:"0"},
+        {label:"Gear Shift Vibration Intensity", value:"0–5", note:"According to personal taste"},
+        {label:"Maximum Wheel", value:"100%"},
+        {label:"Hands-Off Protection", value:"Off", note:"Do NOT set to On — can cause FFB anomalies"},
+        {label:"Maximum Wheel Speed", value:"100%"},
+        {label:"Performance Output", value:"Full"},
+      ]},
+      { title: "Base Force Effects", rows: [
+        {label:"Natural Damping", value:"0%"},
+        {label:"Natural Friction", value:"8%"},
+        {label:"Natural Inertia", value:"180%"},
+        {label:"Wheel Spring Strength", value:"0%"},
+        {label:"Speed-dependent Damping", value:"0%"},
+        {label:"Start Point Speed-dependent Damping", value:"0 km/h"},
+      ]},
+      { title: "Game Force Effects", rows: [
+        {label:"Game Spring", value:"0%"},
+        {label:"Game Damping", value:"0%"},
+        {label:"Game Inertia", value:"0%"},
+        {label:"Game Friction", value:"0%"},
+      ]},
+      { title: "FFB Curve & Equalizer", rows: [
+        {label:"FFB Effect Equalizer", value:"All 100% (linear)"},
+        {label:"Base FFB Curve", value:"Linear"},
+      ]},
+    ]
+  },
+  {
+    id: "moza_r16_v2",
+    brand: "Moza",
+    name: "R16 V2",
+    nm: "16Nm",
+    ingame: [
+      {gain:"60%", lfb:"0%", fx:"22–25%", damping:"28%"},
+      {gain:"65%", lfb:"0%", fx:"20%",    damping:"40%"},
+      {gain:"52%", lfb:"0%", fx:"26%",    damping:"40%"},
+      {gain:"52%", lfb:"0%", fx:"18%",    damping:"40%"},
+    ],
+    groups: [
+      { title: "Angle & Limit", rows: [
+        {label:"Steering Angle Sync", value:"ON"},
+        {label:"Soft Limit Stiffness", value:"7"},
+        {label:"Soft Limit Strength", value:"Hard"},
+        {label:"Soft Limit Game Force Strength", value:"On"},
+      ]},
+      { title: "Handling Feel", rows: [
+        {label:"Game FFB Intensity", value:"62%", note:"10Nm is sweet spot — increase or decrease to taste"},
+        {label:"Professional Game FFB Intensity", value:"62%"},
+        {label:"Maximum Output Torque Limit", value:"90%"},
+        {label:"Force Feedback Reversal", value:"Off"},
+        {label:"Force Feedback Interpolation", value:"0"},
+        {label:"FFB Center Deadzone Compensation", value:"0"},
+        {label:"Gear Shift Vibration Intensity", value:"0–5", note:"According to personal taste"},
+        {label:"Maximum Wheel", value:"100%"},
+        {label:"Hands-Off Protection", value:"Off", note:"Do NOT set to On — can cause FFB anomalies"},
+        {label:"Maximum Wheel Speed", value:"100%"},
+        {label:"Performance Output", value:"Full"},
+      ]},
+      { title: "Base Force Effects", rows: [
+        {label:"Natural Damping", value:"0%"},
+        {label:"Natural Friction", value:"8%"},
+        {label:"Natural Inertia", value:"180%"},
+        {label:"Wheel Spring Strength", value:"0%"},
+        {label:"Speed-dependent Damping", value:"0%"},
+        {label:"Start Point Speed-dependent Damping", value:"0 km/h"},
+      ]},
+      { title: "Game Force Effects", rows: [
+        {label:"Game Spring", value:"0%"},
+        {label:"Game Damping", value:"0%"},
+        {label:"Game Inertia", value:"0%"},
+        {label:"Game Friction", value:"0%"},
+      ]},
+      { title: "FFB Curve & Equalizer", rows: [
+        {label:"FFB Effect Equalizer", value:"All 100% (linear)"},
+        {label:"Base FFB Curve", value:"Linear"},
+      ]},
+    ]
+  },
+  {
+    id: "moza_r21_ultra",
+    brand: "Moza",
+    name: "R21 Ultra",
+    nm: "21Nm",
+    ingame: [
+      {gain:"60%", lfb:"0%", fx:"22–25%", damping:"28%"},
+      {gain:"65%", lfb:"0%", fx:"20%",    damping:"40%"},
+      {gain:"52%", lfb:"0%", fx:"26%",    damping:"40%"},
+      {gain:"52%", lfb:"0%", fx:"18%",    damping:"40%"},
+    ],
+    groups: [
+      { title: "Angle & Limit", rows: [
+        {label:"Steering Angle Sync", value:"ON"},
+        {label:"Soft Limit Stiffness", value:"7"},
+        {label:"Soft Limit Strength", value:"Hard"},
+        {label:"Soft Limit Game Force Strength", value:"On"},
+      ]},
+      { title: "Handling Feel", rows: [
+        {label:"Game FFB Intensity", value:"48%", note:"10Nm is sweet spot — increase or decrease to taste"},
+        {label:"Professional Game FFB Intensity", value:"48%"},
+        {label:"Maximum Output Torque Limit", value:"90%"},
+        {label:"Force Feedback Reversal", value:"Off"},
+        {label:"Force Feedback Interpolation", value:"0"},
+        {label:"FFB Center Deadzone Compensation", value:"0"},
+        {label:"Gear Shift Vibration Intensity", value:"0–5", note:"According to personal taste"},
+        {label:"Maximum Wheel", value:"100%"},
+        {label:"Hands-Off Protection", value:"Off", note:"Do NOT set to On — can cause FFB anomalies"},
+        {label:"Maximum Wheel Speed", value:"100%"},
+        {label:"Performance Output", value:"Full"},
+      ]},
+      { title: "Base Force Effects", rows: [
+        {label:"Natural Damping", value:"0%"},
+        {label:"Natural Friction", value:"8%"},
+        {label:"Natural Inertia", value:"180%"},
+        {label:"Wheel Spring Strength", value:"0%"},
+        {label:"Speed-dependent Damping", value:"0%"},
+        {label:"Start Point Speed-dependent Damping", value:"0 km/h"},
+      ]},
+      { title: "Game Force Effects", rows: [
+        {label:"Game Spring", value:"0%"},
+        {label:"Game Damping", value:"0%"},
+        {label:"Game Inertia", value:"0%"},
+        {label:"Game Friction", value:"0%"},
+      ]},
+      { title: "FFB Curve & Equalizer", rows: [
+        {label:"FFB Effect Equalizer", value:"All 100% (linear)"},
+        {label:"Base FFB Curve", value:"Linear"},
+      ]},
+    ]
+  },
+  {
+    id: "moza_r21_v2",
+    brand: "Moza",
+    name: "R21 V2",
+    nm: "21Nm",
+    ingame: [
+      {gain:"60%", lfb:"0%", fx:"22–25%", damping:"28%"},
+      {gain:"65%", lfb:"0%", fx:"20%",    damping:"40%"},
+      {gain:"52%", lfb:"0%", fx:"26%",    damping:"40%"},
+      {gain:"52%", lfb:"0%", fx:"18%",    damping:"40%"},
+    ],
+    groups: [
+      { title: "Angle & Limit", rows: [
+        {label:"Steering Angle Sync", value:"ON"},
+        {label:"Soft Limit Stiffness", value:"7"},
+        {label:"Soft Limit Strength", value:"Hard"},
+        {label:"Soft Limit Game Force Strength", value:"On"},
+      ]},
+      { title: "Handling Feel", rows: [
+        {label:"Game FFB Intensity", value:"48%", note:"10Nm is sweet spot — increase or decrease to taste"},
+        {label:"Professional Game FFB Intensity", value:"48%"},
+        {label:"Maximum Output Torque Limit", value:"90%"},
+        {label:"Force Feedback Reversal", value:"Off"},
+        {label:"Force Feedback Interpolation", value:"0"},
+        {label:"FFB Center Deadzone Compensation", value:"0"},
+        {label:"Gear Shift Vibration Intensity", value:"0–5", note:"According to personal taste"},
+        {label:"Maximum Wheel", value:"100%"},
+        {label:"Hands-Off Protection", value:"Off", note:"Do NOT set to On — can cause FFB anomalies"},
+        {label:"Maximum Wheel Speed", value:"100%"},
+        {label:"Performance Output", value:"Full"},
+      ]},
+      { title: "Base Force Effects", rows: [
+        {label:"Natural Damping", value:"0%"},
+        {label:"Natural Friction", value:"8%"},
+        {label:"Natural Inertia", value:"180%"},
+        {label:"Wheel Spring Strength", value:"0%"},
+        {label:"Speed-dependent Damping", value:"0%"},
+        {label:"Start Point Speed-dependent Damping", value:"0 km/h"},
+      ]},
+      { title: "Game Force Effects", rows: [
+        {label:"Game Spring", value:"0%"},
+        {label:"Game Damping", value:"0%"},
+        {label:"Game Inertia", value:"0%"},
+        {label:"Game Friction", value:"0%"},
+      ]},
+      { title: "FFB Curve & Equalizer", rows: [
+        {label:"FFB Effect Equalizer", value:"All 100% (linear)"},
+        {label:"Base FFB Curve", value:"Linear"},
+      ]},
+    ]
+  },
+  {
+    id: "moza_r25_ultra",
+    brand: "Moza",
+    name: "R25 Ultra",
+    nm: "25Nm",
+    ingame: [
+      {gain:"60%", lfb:"0%", fx:"22–25%", damping:"28%"},
+      {gain:"65%", lfb:"0%", fx:"20%",    damping:"40%"},
+      {gain:"52%", lfb:"0%", fx:"26%",    damping:"40%"},
+      {gain:"52%", lfb:"0%", fx:"18%",    damping:"40%"},
+    ],
+    groups: [
+      { title: "Angle & Limit", rows: [
+        {label:"Steering Angle Sync", value:"ON"},
+        {label:"Soft Limit Stiffness", value:"7"},
+        {label:"Soft Limit Strength", value:"Hard"},
+        {label:"Soft Limit Game Force Strength", value:"On"},
+      ]},
+      { title: "Handling Feel", rows: [
+        {label:"Game FFB Intensity", value:"40%", note:"10Nm is sweet spot — increase or decrease to taste"},
+        {label:"Professional Game FFB Intensity", value:"40%"},
+        {label:"Maximum Output Torque Limit", value:"90%"},
+        {label:"Force Feedback Reversal", value:"Off"},
+        {label:"Force Feedback Interpolation", value:"0"},
+        {label:"FFB Center Deadzone Compensation", value:"0"},
+        {label:"Gear Shift Vibration Intensity", value:"0–5", note:"According to personal taste"},
+        {label:"Maximum Wheel", value:"100%"},
+        {label:"Hands-Off Protection", value:"Off", note:"Do NOT set to On — can cause FFB anomalies"},
+        {label:"Maximum Wheel Speed", value:"100%"},
+        {label:"Performance Output", value:"Full"},
+      ]},
+      { title: "Base Force Effects", rows: [
+        {label:"Natural Damping", value:"0%"},
+        {label:"Natural Friction", value:"8%"},
+        {label:"Natural Inertia", value:"180%"},
+        {label:"Wheel Spring Strength", value:"0%"},
+        {label:"Speed-dependent Damping", value:"0%"},
+        {label:"Start Point Speed-dependent Damping", value:"0 km/h"},
+      ]},
+      { title: "Game Force Effects", rows: [
+        {label:"Game Spring", value:"0%"},
+        {label:"Game Damping", value:"0%"},
+        {label:"Game Inertia", value:"0%"},
+        {label:"Game Friction", value:"0%"},
+      ]},
+      { title: "FFB Curve & Equalizer", rows: [
+        {label:"FFB Effect Equalizer", value:"All 100% (linear)"},
+        {label:"Base FFB Curve", value:"Linear"},
+      ]},
+    ]
+  },
+  {
+    id: "pxn_vd4",
+    brand: "PXN",
+    name: "VD4",
+    nm: "4–5Nm",
+    ingame: [
+      {gain:"64%", lfb:"0%", fx:"22–25%", damping:"28%"},
+      {gain:"70%", lfb:"0%", fx:"20%",    damping:"40%"},
+      {gain:"56%", lfb:"0%", fx:"26%",    damping:"40%"},
+      {gain:"56%", lfb:"0%", fx:"18%",    damping:"40%"},
+    ],
+    groups: [
+      { title: "Basic Settings", rows: [
+        {label:"Limit Strength", value:"Hard"},
+        {label:"Lock Angle", value:"900°"},
+        {label:"Max Rotation Speed", value:"100%"},
+        {label:"Force Feedback", value:"100%"},
+        {label:"Reverse", value:"OFF"},
+        {label:"Mechanical Max Torque", value:"100%"},
+        {label:"Mechanical Inertia", value:"0%"},
+        {label:"Mechanical Friction", value:"12%"},
+        {label:"Mechanical Damping", value:"0%"},
+      ]},
+      { title: "Advanced Settings — D-Input Parameters", rows: [
+        {label:"Game Damping", value:"100%"},
+        {label:"Tire Self-Aligning Torque", value:"100%"},
+        {label:"Game Friction", value:"100%"},
+      ]},
+      { title: "Advanced Parameters", rows: [
+        {label:"Filter Level", value:"0–50%", note:"Find the ideal value to avoid vibrations"},
+        {label:"Feedback Detail", value:"0%"},
+        {label:"Mechanical Centering", value:"0%"},
+      ]},
+    ]
+  },
+  {
+    id: "pxn_vd6",
+    brand: "PXN",
+    name: "VD6",
+    nm: "6–7Nm",
+    ingame: [
+      {gain:"60%", lfb:"0%", fx:"22–25%", damping:"28%"},
+      {gain:"65%", lfb:"0%", fx:"20%",    damping:"40%"},
+      {gain:"52%", lfb:"0%", fx:"26%",    damping:"40%"},
+      {gain:"52%", lfb:"0%", fx:"18%",    damping:"40%"},
+    ],
+    groups: [
+      { title: "Basic Settings", rows: [
+        {label:"Limit Strength", value:"Hard"},
+        {label:"Lock Angle", value:"900°"},
+        {label:"Max Rotation Speed", value:"100%"},
+        {label:"Force Feedback", value:"90–100%"},
+        {label:"Reverse", value:"OFF"},
+        {label:"Mechanical Max Torque", value:"100%"},
+        {label:"Mechanical Inertia", value:"0%"},
+        {label:"Mechanical Friction", value:"8%"},
+        {label:"Mechanical Damping", value:"0%"},
+      ]},
+      { title: "Advanced Settings — D-Input Parameters", rows: [
+        {label:"Game Damping", value:"100%"},
+        {label:"Tire Self-Aligning Torque", value:"100%"},
+        {label:"Game Friction", value:"100%"},
+      ]},
+      { title: "Advanced Parameters", rows: [
+        {label:"Filter Level", value:"0–50%", note:"Find the ideal value to avoid vibrations"},
+        {label:"Feedback Detail", value:"0%"},
+        {label:"Mechanical Centering", value:"0%"},
+      ]},
+    ]
+  },
+  {
+    id: "pxn_vd10",
+    brand: "PXN",
+    name: "VD10",
+    nm: "10–12Nm",
+    ingame: [
+      {gain:"60%", lfb:"0%", fx:"22–25%", damping:"28%"},
+      {gain:"65%", lfb:"0%", fx:"20%",    damping:"40%"},
+      {gain:"52%", lfb:"0%", fx:"26%",    damping:"40%"},
+      {gain:"52%", lfb:"0%", fx:"18%",    damping:"40%"},
+    ],
+    groups: [
+      { title: "Basic Settings", rows: [
+        {label:"Limit Strength", value:"Hard"},
+        {label:"Lock Angle", value:"900°"},
+        {label:"Max Rotation Speed", value:"100%"},
+        {label:"Force Feedback", value:"100%"},
+        {label:"Reverse", value:"OFF"},
+        {label:"Mechanical Max Torque", value:"100%"},
+        {label:"Mechanical Inertia", value:"0%"},
+        {label:"Mechanical Friction", value:"8%"},
+        {label:"Mechanical Damping", value:"0%"},
+      ]},
+      { title: "Advanced Settings — D-Input Parameters", rows: [
+        {label:"Game Damping", value:"100%"},
+        {label:"Tire Self-Aligning Torque", value:"100%"},
+        {label:"Game Friction", value:"100%"},
+      ]},
+      { title: "Advanced Parameters", rows: [
+        {label:"Filter Level", value:"0–50%", note:"Find the ideal value to avoid vibrations"},
+        {label:"Feedback Detail", value:"0%"},
+        {label:"Mechanical Centering", value:"0%"},
+      ]},
+    ]
+  },
+  {
+    id: "simucube2_pro",
+    brand: "Simucube 2",
+    name: "Pro",
+    nm: "25Nm",
+    ingame: [
+      {gain:"60%", lfb:"0%", fx:"22–25%", damping:"28%"},
+      {gain:"65%", lfb:"0%", fx:"20%",    damping:"40%"},
+      {gain:"52%", lfb:"0%", fx:"26%",    damping:"40%"},
+      {gain:"52%", lfb:"0%", fx:"18%",    damping:"40%"},
+    ],
+    groups: [
+      { title: "Basic Settings (Truedrive)", rows: [
+        {label:"Max Strength", value:"40%", note:"10Nm is sweet spot — increase or decrease to taste"},
+        {label:"Steering Range", value:"900"},
+      ]},
+      { title: "Mechanical Feel", rows: [
+        {label:"Damping", value:"0%"},
+        {label:"Friction", value:"8%"},
+        {label:"Inertia", value:"0%", note:"Can be increased for very light wheels"},
+        {label:"Centering Force", value:"0%"},
+      ]},
+      { title: "Smoothness", rows: [
+        {label:"Reconstruction Filter", value:"4"},
+        {label:"Slew Rate Limit", value:"OFF"},
+        {label:"Torque Bandwidth", value:"∞"},
+      ]},
+      { title: "Advanced", rows: [
+        {label:"Static Force Reduction", value:"3%", note:"Reduces high forces in curves, increases fine detail"},
+        {label:"Ultra Low Latency", value:"0%"},
+        {label:"Torque Linearity", value:"1.0"},
+        {label:"Bumpstop Range", value:"900"},
+        {label:"Bumpstop", value:"Hard"},
+      ]},
+      { title: "Notch Filter", rows: [
+        {label:"Center Frequency (Hz)", value:"Off"},
+      ]},
+      { title: "Game Effects", rows: [
+        {label:"Damping", value:"100"},
+        {label:"Friction", value:"100"},
+        {label:"Spring", value:"100"},
+        {label:"Sine Wave", value:"100"},
+        {label:"Square Wave", value:"100"},
+        {label:"Sawtooth Wave", value:"100"},
+        {label:"Triangle Wave", value:"100"},
+      ]},
+    ]
+  },
+  {
+    id: "simucube2_sport",
+    brand: "Simucube 2",
+    name: "Sport",
+    nm: "17Nm",
+    ingame: [
+      {gain:"60%", lfb:"0%", fx:"22–25%", damping:"28%"},
+      {gain:"65%", lfb:"0%", fx:"20%",    damping:"40%"},
+      {gain:"52%", lfb:"0%", fx:"26%",    damping:"40%"},
+      {gain:"52%", lfb:"0%", fx:"18%",    damping:"40%"},
+    ],
+    groups: [
+      { title: "Basic Settings (Truedrive)", rows: [
+        {label:"Max Strength", value:"60%", note:"10Nm is sweet spot — increase or decrease to taste"},
+        {label:"Steering Range", value:"900"},
+      ]},
+      { title: "Mechanical Feel", rows: [
+        {label:"Damping", value:"0%"},
+        {label:"Friction", value:"8%"},
+        {label:"Inertia", value:"0%", note:"Can be increased for very light wheels"},
+        {label:"Centering Force", value:"0%"},
+      ]},
+      { title: "Smoothness", rows: [
+        {label:"Reconstruction Filter", value:"4"},
+        {label:"Slew Rate Limit", value:"OFF"},
+        {label:"Torque Bandwidth", value:"∞"},
+      ]},
+      { title: "Advanced", rows: [
+        {label:"Static Force Reduction", value:"3%", note:"Reduces high forces in curves. For Rally Cars: 15–25%"},
+        {label:"Ultra Low Latency", value:"0%"},
+        {label:"Torque Linearity", value:"1.0"},
+        {label:"Bumpstop Range", value:"900"},
+        {label:"Bumpstop", value:"Hard"},
+      ]},
+      { title: "Notch Filter", rows: [
+        {label:"Center Frequency (Hz)", value:"Off"},
+      ]},
+      { title: "Game Effects", rows: [
+        {label:"Damping", value:"100"},
+        {label:"Friction", value:"100"},
+        {label:"Spring", value:"100"},
+        {label:"Sine Wave", value:"100"},
+        {label:"Square Wave", value:"100"},
+        {label:"Sawtooth Wave", value:"100"},
+        {label:"Triangle Wave", value:"100"},
+      ]},
+    ]
+  },
+  {
+    id: "simagic_alpha",
+    brand: "Simagic",
+    name: "Alpha",
+    nm: "15Nm",
+    ingame: [
+      {gain:"60%", lfb:"0%", fx:"22–25%", damping:"28%"},
+      {gain:"65%", lfb:"0%", fx:"20%",    damping:"40%"},
+      {gain:"52%", lfb:"0%", fx:"26%",    damping:"40%"},
+      {gain:"52%", lfb:"0%", fx:"18%",    damping:"40%"},
+    ],
+    groups: [
+      { title: "Steer Settings", rows: [
+        {label:"Angle", value:"900"},
+        {label:"Hard Lock Angle", value:"900"},
+        {label:"Limit Strength", value:"Normal"},
+      ]},
+      { title: "Basic Settings", rows: [
+        {label:"Force Feedback", value:"67%", note:"10Nm is sweet spot — increase or decrease to taste"},
+        {label:"Smoothness", value:"1"},
+        {label:"Wheel Rotation Speed", value:"100%"},
+        {label:"Feedback Detail", value:"0"},
+      ]},
+      { title: "Mechanical", rows: [
+        {label:"Max. Torque", value:"15Nm"},
+        {label:"Mechanical Damper", value:"0%"},
+        {label:"Mechanical Friction", value:"9%"},
+        {label:"Mechanical Inertia", value:"0%", note:"Can be increased for very light wheels"},
+        {label:"Feedback Frequency", value:"0"},
+      ]},
+      { title: "Other Effects", rows: [
+        {label:"Mechanical Spring", value:"0%"},
+        {label:"Center Damper", value:"0%"},
+        {label:"Game Inertia", value:"100"},
+        {label:"Game Spring", value:"100"},
+        {label:"Game Damper", value:"100"},
+        {label:"Game Friction", value:"100"},
+      ]},
+    ]
+  },
+  {
+    id: "simagic_alpha_evo",
+    brand: "Simagic",
+    name: "Alpha Evo",
+    nm: "12Nm",
+    ingame: [
+      {gain:"60%", lfb:"0%", fx:"22–25%", damping:"28%"},
+      {gain:"65%", lfb:"0%", fx:"20%",    damping:"40%"},
+      {gain:"52%", lfb:"0%", fx:"26%",    damping:"40%"},
+      {gain:"52%", lfb:"0%", fx:"18%",    damping:"40%"},
+    ],
+    groups: [
+      { title: "Steer Settings", rows: [
+        {label:"Angle", value:"900"},
+        {label:"Hard Lock Angle", value:"900"},
+        {label:"Limit Strength", value:"Normal"},
+      ]},
+      { title: "Basic Settings", rows: [
+        {label:"Force Feedback", value:"84%", note:"10Nm is sweet spot — increase or decrease to taste"},
+        {label:"Filter Level", value:"0"},
+        {label:"Wheel Rotation Speed", value:"100%"},
+        {label:"Feedback Detail", value:"0"},
+      ]},
+      { title: "Mechanical", rows: [
+        {label:"Dynamic Prediction Level", value:"0"},
+        {label:"Mechanical Damper", value:"0%"},
+        {label:"Mechanical Friction", value:"9%"},
+        {label:"Mechanical Inertia", value:"0%", note:"Can be increased for very light wheels"},
+        {label:"Slew Rate Control", value:"5%"},
+      ]},
+      { title: "Other Effects", rows: [
+        {label:"Mechanical Spring", value:"0%"},
+        {label:"Center Damper", value:"0%"},
+        {label:"Game Inertia", value:"100"},
+        {label:"Game Centering", value:"100"},
+        {label:"Game Damper", value:"100"},
+        {label:"Game Friction", value:"100"},
+      ]},
+    ]
+  },
+  {
+    id: "simagic_alpha_evo_pro",
+    brand: "Simagic",
+    name: "Alpha Evo Pro",
+    nm: "18Nm",
+    ingame: [
+      {gain:"60%", lfb:"0%", fx:"22–25%", damping:"28%"},
+      {gain:"65%", lfb:"0%", fx:"20%",    damping:"40%"},
+      {gain:"52%", lfb:"0%", fx:"26%",    damping:"40%"},
+      {gain:"52%", lfb:"0%", fx:"18%",    damping:"40%"},
+    ],
+    groups: [
+      { title: "Steer Settings", rows: [
+        {label:"Angle", value:"900"},
+        {label:"Hard Lock Angle", value:"900"},
+        {label:"Limit Strength", value:"Normal"},
+      ]},
+      { title: "Basic Settings", rows: [
+        {label:"Force Feedback", value:"56%", note:"10Nm is sweet spot — increase or decrease to taste"},
+        {label:"Filter Level", value:"0"},
+        {label:"Wheel Rotation Speed", value:"100%"},
+        {label:"Feedback Detail", value:"0"},
+      ]},
+      { title: "Mechanical", rows: [
+        {label:"Dynamic Prediction Level", value:"0"},
+        {label:"Steering Torque Assist", value:"3%", note:"Reduces high forces in curves, increases fine detail"},
+        {label:"Mechanical Damper", value:"0%"},
+        {label:"Mechanical Friction", value:"9%"},
+        {label:"Mechanical Inertia", value:"0%", note:"Can be increased for very light wheels"},
+        {label:"Slew Rate Control", value:"5%"},
+      ]},
+      { title: "Other Effects", rows: [
+        {label:"Mechanical Spring", value:"0%"},
+        {label:"Center Damper", value:"0%"},
+        {label:"Game Inertia", value:"100"},
+        {label:"Game Centering", value:"100"},
+        {label:"Game Damper", value:"100"},
+        {label:"Game Friction", value:"100"},
+      ]},
+    ]
+  },
+  {
+    id: "simagic_alpha_evo_sport",
+    brand: "Simagic",
+    name: "Alpha Evo Sport",
+    nm: "9Nm",
+    ingame: [
+      {gain:"60%", lfb:"0%", fx:"22–25%", damping:"28%"},
+      {gain:"65%", lfb:"0%", fx:"20%",    damping:"40%"},
+      {gain:"52%", lfb:"0%", fx:"26%",    damping:"40%"},
+      {gain:"52%", lfb:"0%", fx:"18%",    damping:"40%"},
+    ],
+    groups: [
+      { title: "Steer Settings", rows: [
+        {label:"Angle", value:"900"},
+        {label:"Hard Lock Angle", value:"900"},
+        {label:"Limit Strength", value:"Normal"},
+      ]},
+      { title: "Basic Settings", rows: [
+        {label:"Force Feedback", value:"100%"},
+        {label:"Filter Level", value:"0"},
+        {label:"Wheel Rotation Speed", value:"100%"},
+        {label:"Feedback Detail", value:"0"},
+      ]},
+      { title: "Mechanical", rows: [
+        {label:"Dynamic Prediction Level", value:"0"},
+        {label:"Mechanical Damper", value:"0%"},
+        {label:"Mechanical Friction", value:"9%"},
+        {label:"Mechanical Inertia", value:"0%", note:"Can be increased for very light wheels"},
+        {label:"Slew Rate Control", value:"5%"},
+      ]},
+      { title: "Other Effects", rows: [
+        {label:"Mechanical Spring", value:"0%"},
+        {label:"Center Damper", value:"0%"},
+        {label:"Game Inertia", value:"100"},
+        {label:"Game Centering", value:"100"},
+        {label:"Game Damper", value:"100"},
+        {label:"Game Friction", value:"100"},
+      ]},
+    ]
+  },
+  {
+    id: "simagic_alpha_mini",
+    brand: "Simagic",
+    name: "Alpha Mini",
+    nm: "10Nm",
+    ingame: [
+      {gain:"60%", lfb:"0%", fx:"22–25%", damping:"28%"},
+      {gain:"65%", lfb:"0%", fx:"20%",    damping:"40%"},
+      {gain:"52%", lfb:"0%", fx:"26%",    damping:"40%"},
+      {gain:"52%", lfb:"0%", fx:"18%",    damping:"40%"},
+    ],
+    groups: [
+      { title: "Steer Settings", rows: [
+        {label:"Angle", value:"900"},
+        {label:"Hard Lock Angle", value:"900"},
+        {label:"Limit Strength", value:"Normal"},
+      ]},
+      { title: "Basic Settings", rows: [
+        {label:"Force Feedback", value:"100%"},
+        {label:"Smoothness", value:"1"},
+        {label:"Wheel Rotation Speed", value:"100%"},
+        {label:"Feedback Detail", value:"0"},
+      ]},
+      { title: "Mechanical", rows: [
+        {label:"Max. Torque", value:"10Nm"},
+        {label:"Mechanical Damper", value:"0%"},
+        {label:"Mechanical Friction", value:"9%"},
+        {label:"Mechanical Inertia", value:"0%", note:"Can be increased for very light wheels"},
+        {label:"Feedback Frequency", value:"0"},
+      ]},
+      { title: "Other Effects", rows: [
+        {label:"Mechanical Spring", value:"0%"},
+        {label:"Center Damper", value:"0%"},
+        {label:"Game Inertia", value:"100"},
+        {label:"Game Spring", value:"100"},
+        {label:"Game Damper", value:"100"},
+        {label:"Game Friction", value:"100"},
+      ]},
+    ]
+  },
+  {
+    id: "simagic_evo_ultra",
+    brand: "Simagic",
+    name: "Evo Ultra",
+    nm: "28Nm",
+    ingame: [
+      {gain:"60%", lfb:"0%", fx:"22–25%", damping:"28%"},
+      {gain:"65%", lfb:"0%", fx:"20%",    damping:"40%"},
+      {gain:"52%", lfb:"0%", fx:"26%",    damping:"40%"},
+      {gain:"52%", lfb:"0%", fx:"18%",    damping:"40%"},
+    ],
+    groups: [
+      { title: "Steer Settings", rows: [
+        {label:"Angle", value:"900"},
+        {label:"Hard Lock Angle", value:"900"},
+        {label:"Limit Strength", value:"Normal"},
+      ]},
+      { title: "Basic Settings", rows: [
+        {label:"Force Feedback", value:"36%", note:"10Nm is sweet spot — increase or decrease to taste"},
+        {label:"Filter Level", value:"0"},
+        {label:"Wheel Rotation Speed", value:"100%"},
+        {label:"Feedback Detail", value:"0"},
+      ]},
+      { title: "Mechanical", rows: [
+        {label:"Dynamic Prediction Level", value:"0"},
+        {label:"Steering Torque Assist", value:"3%", note:"Reduces high forces in curves, increases fine detail"},
+        {label:"Mechanical Damper", value:"0%"},
+        {label:"Mechanical Friction", value:"9%"},
+        {label:"Mechanical Inertia", value:"0%", note:"Can be increased for very light wheels"},
+        {label:"Slew Rate Control", value:"5%"},
+      ]},
+      { title: "Other Effects", rows: [
+        {label:"Mechanical Spring", value:"0%"},
+        {label:"Center Damper", value:"0%"},
+        {label:"Game Inertia", value:"100"},
+        {label:"Game Centering", value:"100"},
+        {label:"Game Damper", value:"100"},
+        {label:"Game Friction", value:"100"},
+      ]},
+    ]
+  },
+  {
+    id: "simagic_ultimate",
+    brand: "Simagic",
+    name: "Ultimate",
+    nm: "23Nm",
+    ingame: [
+      {gain:"60%", lfb:"0%", fx:"22–25%", damping:"28%"},
+      {gain:"65%", lfb:"0%", fx:"20%",    damping:"40%"},
+      {gain:"52%", lfb:"0%", fx:"26%",    damping:"40%"},
+      {gain:"52%", lfb:"0%", fx:"18%",    damping:"40%"},
+    ],
+    groups: [
+      { title: "Steer Settings", rows: [
+        {label:"Angle", value:"900"},
+        {label:"Hard Lock Angle", value:"900"},
+        {label:"Limit Strength", value:"Normal"},
+      ]},
+      { title: "Basic Settings", rows: [
+        {label:"Force Feedback", value:"44%", note:"10Nm is sweet spot — increase or decrease to taste"},
+        {label:"Smoothness", value:"1"},
+        {label:"Wheel Rotation Speed", value:"100%"},
+        {label:"Feedback Detail", value:"0"},
+      ]},
+      { title: "Mechanical", rows: [
+        {label:"Max. Torque", value:"23Nm"},
+        {label:"Mechanical Damper", value:"0%"},
+        {label:"Mechanical Friction", value:"9%"},
+        {label:"Mechanical Inertia", value:"0%", note:"Can be increased for very light wheels"},
+        {label:"Feedback Frequency", value:"0"},
+      ]},
+      { title: "Other Effects", rows: [
+        {label:"Mechanical Spring", value:"0%"},
+        {label:"Center Damper", value:"0%"},
+        {label:"Game Inertia", value:"100"},
+        {label:"Game Spring", value:"100"},
+        {label:"Game Damper", value:"100"},
+        {label:"Game Friction", value:"100"},
+      ]},
+    ]
+  },
+  {
+    id: "thrustmaster_t300",
+    brand: "Thrustmaster",
+    name: "T300 RS",
+    nm: "4Nm",
+    ingame: [
+      {gain:"60%", lfb:"0%", fx:"30%",    damping:"28%"},
+      {gain:"65%", lfb:"0%", fx:"25%",    damping:"35%"},
+      {gain:"52%", lfb:"0%", fx:"30%",    damping:"35%"},
+      {gain:"52%", lfb:"0%", fx:"20%",    damping:"35%"},
+    ],
+    groups: [
+      { title: "Base Settings", rows: [
+        {label:"Rotation", value:"900"},
+        {label:"Overall Strength of All Forces", value:"100%"},
+        {label:"Constant", value:"100%"},
+        {label:"Periodic", value:"100%"},
+        {label:"Spring", value:"0%"},
+        {label:"Damper", value:"100%"},
+        {label:"BOOST (Constant + Spring)", value:"OFF"},
+        {label:"Auto-Center Settings", value:"By the Game 50%"},
+      ]},
+    ]
+  },
+  {
+    id: "thrustmaster_t500",
+    brand: "Thrustmaster",
+    name: "T500",
+    nm: "5Nm",
+    ingame: [
+      {gain:"60%", lfb:"0%", fx:"28%",    damping:"28%"},
+      {gain:"65%", lfb:"0%", fx:"25%",    damping:"35%"},
+      {gain:"52%", lfb:"0%", fx:"30%",    damping:"35%"},
+      {gain:"52%", lfb:"0%", fx:"20%",    damping:"35%"},
+    ],
+    groups: [
+      { title: "Base Settings", rows: [
+        {label:"Rotation", value:"900"},
+        {label:"Overall Strength of All Forces", value:"90–100%"},
+        {label:"Constant", value:"100%"},
+        {label:"Periodic", value:"100%"},
+        {label:"Spring", value:"0%"},
+        {label:"Damper", value:"100%"},
+        {label:"BOOST (Constant + Spring)", value:"OFF"},
+        {label:"Auto-Center Settings", value:"By the Game 50%"},
+      ]},
+    ]
+  },
+  {
+    id: "thrustmaster_t598",
+    brand: "Thrustmaster",
+    name: "T598",
+    nm: "5Nm",
+    ingame: [
+      {gain:"60%", lfb:"0%", fx:"22–25%", damping:"28%"},
+      {gain:"65%", lfb:"0%", fx:"20%",    damping:"40%"},
+      {gain:"52%", lfb:"0%", fx:"26%",    damping:"40%"},
+      {gain:"52%", lfb:"0%", fx:"18%",    damping:"40%"},
+    ],
+    groups: [
+      { title: "Base Settings — TM Panel", rows: [
+        {label:"Master Gain", value:"100%"},
+        {label:"Damper", value:"0%"},
+        {label:"Mode", value:"Extreme"},
+        {label:"Rotation Angle", value:"900", note:"Caution: 900° not possible with 'My Thrustmaster app' — use 225° instead"},
+        {label:"End Stop", value:"High"},
+        {label:"Boost Low", value:"-1"},
+        {label:"Boost High", value:"-1"},
+        {label:"Speed", value:"EXT"},
+        {label:"Inertia", value:"OFF"},
+        {label:"Gear Jolt", value:"OFF / Low / Mid", note:"According to personal taste"},
+        {label:"Lighting Mode", value:"Telemetry"},
+      ]},
+    ]
+  },
+  {
+    id: "thrustmaster_t818",
+    brand: "Thrustmaster",
+    name: "T818",
+    nm: "10Nm",
+    ingame: [
+      {gain:"60%", lfb:"0%", fx:"22–25%", damping:"28%"},
+      {gain:"65%", lfb:"0%", fx:"20%",    damping:"40%"},
+      {gain:"52%", lfb:"0%", fx:"26%",    damping:"40%"},
+      {gain:"52%", lfb:"0%", fx:"18%",    damping:"40%"},
+    ],
+    groups: [
+      { title: "Base Settings — TM Panel", rows: [
+        {label:"Master Gain", value:"100%"},
+        {label:"Damper", value:"0%"},
+        {label:"Mode", value:"Extreme"},
+        {label:"Rotation Angle", value:"900", note:"Caution: 900° not possible with 'My Thrustmaster app' — use 225° instead"},
+        {label:"End Stop", value:"High"},
+        {label:"Boost Low", value:"-1"},
+        {label:"Boost High", value:"-1"},
+        {label:"Speed", value:"EXT"},
+        {label:"Inertia", value:"OFF"},
+        {label:"Gear Jolt", value:"OFF / Low / Mid", note:"According to personal taste"},
+        {label:"Lighting Mode", value:"Telemetry"},
+      ]},
+    ]
+  },
+  {
+    id: "thrustmaster_tgt",
+    brand: "Thrustmaster",
+    name: "T-GT / T-GT II / TS-PC / TS-XW",
+    nm: "6Nm",
+    ingame: [
+      {gain:"60%", lfb:"0%", fx:"22–25%", damping:"28%"},
+      {gain:"65%", lfb:"0%", fx:"20%",    damping:"35%"},
+      {gain:"52%", lfb:"0%", fx:"26%",    damping:"35%"},
+      {gain:"52%", lfb:"0%", fx:"18%",    damping:"35%"},
+    ],
+    groups: [
+      { title: "Base Settings", rows: [
+        {label:"Rotation", value:"900"},
+        {label:"Overall Strength of All Forces", value:"80–100%", note:"Adjust to personal taste"},
+        {label:"Constant", value:"100%"},
+        {label:"Periodic", value:"100%"},
+        {label:"Spring", value:"0%"},
+        {label:"Damper", value:"100%"},
+        {label:"BOOST (Constant + Spring)", value:"OFF"},
+        {label:"Auto-Center Settings", value:"By the Game 50%"},
+      ]},
+    ]
+  },
+  {
+    id: "vnm_elite",
+    brand: "VNM",
+    name: "Elite",
+    nm: "18Nm",
+    ingame: [
+      {gain:"60%", lfb:"0%", fx:"22–25%", damping:"28%"},
+      {gain:"65%", lfb:"0%", fx:"20%",    damping:"40%"},
+      {gain:"52%", lfb:"0%", fx:"26%",    damping:"40%"},
+      {gain:"52%", lfb:"0%", fx:"18%",    damping:"40%"},
+    ],
+    groups: [
+      { title: "Basic", rows: [
+        {label:"Steering Range", value:"900"},
+        {label:"Bumpstop Range", value:"900"},
+        {label:"Lock Strength", value:"10000"},
+      ]},
+      { title: "User Effects", rows: [
+        {label:"Damper Gain", value:"0"},
+        {label:"Friction Gain", value:"8%"},
+        {label:"Inertia Gain", value:"0"},
+        {label:"Spring Gain", value:"0"},
+      ]},
+      { title: "Force Style", rows: [
+        {label:"Max Torque Mode", value:"On"},
+        {label:"Crash Effect Reduction", value:"On"},
+        {label:"Reverse Force", value:"Off"},
+      ]},
+      { title: "Force Settings", rows: [
+        {label:"Overall Gain", value:"56%", note:"10Nm is sweet spot — increase or decrease to taste"},
+        {label:"DI Ratio", value:"Off"},
+        {label:"Force Range", value:"Maximum (Effective Range 0–10000)"},
+      ]},
+      { title: "FFB Mode & Telemetry", rows: [
+        {label:"FFB Mode", value:"Directinput"},
+        {label:"Telemetry", value:"OFF (No Telemetry Mode)"},
+      ]},
+      { title: "Game Settings", rows: [
+        {label:"Constant Gain", value:"100"},
+        {label:"Ramp Gain", value:"100"},
+        {label:"Spring Gain", value:"100"},
+        {label:"Damper Gain", value:"100"},
+        {label:"Inertia Gain", value:"100"},
+        {label:"Friction Gain", value:"100"},
+        {label:"Square Gain", value:"100"},
+        {label:"Triangle Gain", value:"100"},
+        {label:"Sine Gain", value:"100"},
+        {label:"Sawtooth Up Gain", value:"100"},
+        {label:"Sawtooth Down Gain", value:"100"},
+      ]},
+      { title: "Smoothness", rows: [
+        {label:"Overall Filter", value:"400–410", note:"Most important control — can significantly change the feeling"},
+        {label:"Damper Filter", value:"0"},
+        {label:"Inertia Filter", value:"0"},
+        {label:"Friction Filter", value:"0"},
+      ]},
+    ]
+  },
+  {
+    id: "vnm_premier",
+    brand: "VNM",
+    name: "Premier",
+    nm: "13Nm",
+    ingame: [
+      {gain:"60%", lfb:"0%", fx:"22–25%", damping:"28%"},
+      {gain:"65%", lfb:"0%", fx:"20%",    damping:"40%"},
+      {gain:"52%", lfb:"0%", fx:"26%",    damping:"40%"},
+      {gain:"52%", lfb:"0%", fx:"18%",    damping:"40%"},
+    ],
+    groups: [
+      { title: "Basic", rows: [
+        {label:"Steering Range", value:"900"},
+        {label:"Bumpstop Range", value:"900"},
+        {label:"Lock Strength", value:"10000"},
+      ]},
+      { title: "User Effects", rows: [
+        {label:"Damper Gain", value:"0"},
+        {label:"Friction Gain", value:"8%"},
+        {label:"Inertia Gain", value:"0"},
+        {label:"Spring Gain", value:"0"},
+      ]},
+      { title: "Force Style", rows: [
+        {label:"Max Torque Mode", value:"On"},
+        {label:"Crash Effect Reduction", value:"On"},
+        {label:"Reverse Force", value:"Off"},
+      ]},
+      { title: "Force Settings", rows: [
+        {label:"Overall Gain", value:"77%", note:"10Nm is sweet spot — increase or decrease to taste"},
+        {label:"DI Ratio", value:"Off"},
+        {label:"Force Range", value:"Maximum (Effective Range 0–10000)"},
+      ]},
+      { title: "FFB Mode & Telemetry", rows: [
+        {label:"FFB Mode", value:"Directinput"},
+        {label:"Telemetry", value:"OFF (No Telemetry Mode)"},
+      ]},
+      { title: "Game Settings", rows: [
+        {label:"Constant Gain", value:"100"},
+        {label:"Ramp Gain", value:"100"},
+        {label:"Spring Gain", value:"100"},
+        {label:"Damper Gain", value:"100"},
+        {label:"Inertia Gain", value:"100"},
+        {label:"Friction Gain", value:"100"},
+        {label:"Square Gain", value:"100"},
+        {label:"Triangle Gain", value:"100"},
+        {label:"Sine Gain", value:"100"},
+        {label:"Sawtooth Up Gain", value:"100"},
+        {label:"Sawtooth Down Gain", value:"100"},
+      ]},
+      { title: "Smoothness", rows: [
+        {label:"Overall Filter", value:"400–410", note:"Most important control — can significantly change the feeling"},
+        {label:"Damper Filter", value:"0"},
+        {label:"Inertia Filter", value:"0"},
+        {label:"Friction Filter", value:"0"},
+      ]},
+    ]
+  },
+  {
+    id: "vnm_supreme",
+    brand: "VNM",
+    name: "Supreme",
+    nm: "25Nm",
+    ingame: [
+      {gain:"60%", lfb:"0%", fx:"22–25%", damping:"28%"},
+      {gain:"65%", lfb:"0%", fx:"20%",    damping:"40%"},
+      {gain:"52%", lfb:"0%", fx:"26%",    damping:"40%"},
+      {gain:"52%", lfb:"0%", fx:"18%",    damping:"40%"},
+    ],
+    groups: [
+      { title: "Basic", rows: [
+        {label:"Steering Range", value:"900"},
+        {label:"Bumpstop Range", value:"900"},
+        {label:"Lock Strength", value:"10000"},
+      ]},
+      { title: "User Effects", rows: [
+        {label:"Damper Gain", value:"0"},
+        {label:"Friction Gain", value:"8%"},
+        {label:"Inertia Gain", value:"0"},
+        {label:"Spring Gain", value:"0"},
+      ]},
+      { title: "Force Style", rows: [
+        {label:"Max Torque Mode", value:"On"},
+        {label:"Crash Effect Reduction", value:"On"},
+        {label:"Reverse Force", value:"Off"},
+      ]},
+      { title: "Force Settings", rows: [
+        {label:"Overall Gain", value:"40%", note:"10Nm is sweet spot — increase or decrease to taste"},
+        {label:"DI Ratio", value:"Off"},
+        {label:"Force Range", value:"Maximum (Effective Range 0–10000)"},
+      ]},
+      { title: "FFB Mode & Telemetry", rows: [
+        {label:"FFB Mode", value:"Directinput"},
+        {label:"Telemetry", value:"OFF (No Telemetry Mode)"},
+      ]},
+      { title: "Game Settings", rows: [
+        {label:"Constant Gain", value:"100"},
+        {label:"Ramp Gain", value:"100"},
+        {label:"Spring Gain", value:"100"},
+        {label:"Damper Gain", value:"100"},
+        {label:"Inertia Gain", value:"100"},
+        {label:"Friction Gain", value:"100"},
+        {label:"Square Gain", value:"100"},
+        {label:"Triangle Gain", value:"100"},
+        {label:"Sine Gain", value:"100"},
+        {label:"Sawtooth Up Gain", value:"100"},
+        {label:"Sawtooth Down Gain", value:"100"},
+      ]},
+      { title: "Smoothness", rows: [
+        {label:"Overall Filter", value:"400–410", note:"Most important control — can significantly change the feeling"},
+        {label:"Damper Filter", value:"0"},
+        {label:"Inertia Filter", value:"0"},
+        {label:"Friction Filter", value:"0"},
+      ]},
+    ]
+  },
+  {
+    id: "vnm_xtreme",
+    brand: "VNM",
+    name: "Xtreme",
+    nm: "32Nm",
+    ingame: [
+      {gain:"60%", lfb:"0%", fx:"22–25%", damping:"28%"},
+      {gain:"65%", lfb:"0%", fx:"20%",    damping:"40%"},
+      {gain:"52%", lfb:"0%", fx:"26%",    damping:"40%"},
+      {gain:"52%", lfb:"0%", fx:"18%",    damping:"40%"},
+    ],
+    groups: [
+      { title: "Basic", rows: [
+        {label:"Steering Range", value:"900"},
+        {label:"Bumpstop Range", value:"900"},
+        {label:"Lock Strength", value:"10000"},
+      ]},
+      { title: "User Effects", rows: [
+        {label:"Damper Gain", value:"0"},
+        {label:"Friction Gain", value:"8%"},
+        {label:"Inertia Gain", value:"0"},
+        {label:"Spring Gain", value:"0"},
+      ]},
+      { title: "Force Style", rows: [
+        {label:"Max Torque Mode", value:"On"},
+        {label:"Crash Effect Reduction", value:"On"},
+        {label:"Reverse Force", value:"Off"},
+      ]},
+      { title: "Force Settings", rows: [
+        {label:"Overall Gain", value:"31%", note:"10Nm is sweet spot — increase or decrease to taste"},
+        {label:"DI Ratio", value:"Off"},
+        {label:"Force Range", value:"Maximum (Effective Range 0–10000)"},
+      ]},
+      { title: "FFB Mode & Telemetry", rows: [
+        {label:"FFB Mode", value:"Directinput"},
+        {label:"Telemetry", value:"OFF (No Telemetry Mode)"},
+      ]},
+      { title: "Game Settings", rows: [
+        {label:"Constant Gain", value:"100"},
+        {label:"Ramp Gain", value:"100"},
+        {label:"Spring Gain", value:"100"},
+        {label:"Damper Gain", value:"100"},
+        {label:"Inertia Gain", value:"100"},
+        {label:"Friction Gain", value:"100"},
+        {label:"Square Gain", value:"100"},
+        {label:"Triangle Gain", value:"100"},
+        {label:"Sine Gain", value:"100"},
+        {label:"Sawtooth Up Gain", value:"100"},
+        {label:"Sawtooth Down Gain", value:"100"},
+      ]},
+      { title: "Smoothness", rows: [
+        {label:"Overall Filter", value:"400–410", note:"Most important control — can significantly change the feeling"},
+        {label:"Damper Filter", value:"0"},
+        {label:"Inertia Filter", value:"0"},
+        {label:"Friction Filter", value:"0"},
+      ]},
+    ]
+  },
+  {
+    id: "vrs_dfp15",
+    brand: "VRS",
+    name: "DFP15",
+    nm: "15Nm",
+    ingame: [
+      {gain:"60%", lfb:"0%", fx:"22–25%", damping:"28%"},
+      {gain:"65%", lfb:"0%", fx:"20%",    damping:"40%"},
+      {gain:"52%", lfb:"0%", fx:"26%",    damping:"40%"},
+      {gain:"52%", lfb:"0%", fx:"18%",    damping:"40%"},
+    ],
+    groups: [
+      { title: "Basic Settings", rows: [
+        {label:"Rotation Degrees", value:"900"},
+        {label:"End Stop Max Force", value:"100%"},
+        {label:"End Stop Stiffness", value:"5"},
+        {label:"Soft End Stop", value:"OFF"},
+      ]},
+      { title: "General", rows: [
+        {label:"Max Force", value:"67%", note:"10Nm is sweet spot — increase or decrease to taste"},
+        {label:"Static Force Reduction", value:"4%"},
+        {label:"Non Linearity", value:"0%"},
+      ]},
+      { title: "Effects", rows: [
+        {label:"Damping", value:"0%"},
+        {label:"Friction", value:"8%"},
+        {label:"Inertia", value:"0%"},
+        {label:"Spring", value:"0%"},
+      ]},
+      { title: "Force Feedback Shaping", rows: [
+        {label:"Mode", value:"Legacy", note:"In Advanced mode, set to personal preferences"},
+        {label:"Slew Rate", value:"Performance"},
+        {label:"Smoothing", value:"Soft 2 or 3"},
+      ]},
+    ]
+  },
+  {
+    id: "vrs_dfp20",
+    brand: "VRS",
+    name: "DFP20",
+    nm: "20Nm",
+    ingame: [
+      {gain:"60%", lfb:"0%", fx:"22–25%", damping:"28%"},
+      {gain:"65%", lfb:"0%", fx:"20%",    damping:"40%"},
+      {gain:"52%", lfb:"0%", fx:"26%",    damping:"40%"},
+      {gain:"52%", lfb:"0%", fx:"18%",    damping:"40%"},
+    ],
+    groups: [
+      { title: "Basic Settings", rows: [
+        {label:"Rotation Degrees", value:"900"},
+        {label:"End Stop Max Force", value:"100%"},
+        {label:"End Stop Stiffness", value:"5"},
+        {label:"Soft End Stop", value:"OFF"},
+      ]},
+      { title: "General", rows: [
+        {label:"Max Force", value:"50%", note:"10Nm is sweet spot — increase or decrease to taste"},
+        {label:"Static Force Reduction", value:"4%"},
+        {label:"Non Linearity", value:"0%"},
+      ]},
+      { title: "Effects", rows: [
+        {label:"Damping", value:"0%"},
+        {label:"Friction", value:"8%"},
+        {label:"Inertia", value:"0%"},
+        {label:"Spring", value:"0%"},
+      ]},
+      { title: "Force Feedback Shaping", rows: [
+        {label:"Mode", value:"Legacy", note:"In Advanced mode, set to personal preferences"},
+        {label:"Slew Rate", value:"Performance"},
+        {label:"Smoothing", value:"Soft 2 or 3"},
+      ]},
+    ]
+  },
+  {
+    id: "vrs_udfp6",
+    brand: "VRS",
+    name: "uDFP6",
+    nm: "6Nm",
+    ingame: [
+      {gain:"62%", lfb:"0%", fx:"22–25%", damping:"28%"},
+      {gain:"65%", lfb:"0%", fx:"20%",    damping:"40%"},
+      {gain:"54%", lfb:"0%", fx:"26%",    damping:"40%"},
+      {gain:"54%", lfb:"0%", fx:"18%",    damping:"40%"},
+    ],
+    groups: [
+      { title: "Basic Settings", rows: [
+        {label:"Rotation Degrees", value:"900"},
+        {label:"End Stop Max Force", value:"100%"},
+        {label:"End Stop Stiffness", value:"5"},
+        {label:"Soft End Stop", value:"OFF"},
+      ]},
+      { title: "General", rows: [
+        {label:"Max Force", value:"100%"},
+        {label:"Static Force Reduction", value:"0%"},
+        {label:"Non Linearity", value:"0%"},
+      ]},
+      { title: "Effects", rows: [
+        {label:"Damping", value:"0%"},
+        {label:"Friction", value:"10%"},
+        {label:"Inertia", value:"0%"},
+        {label:"Spring", value:"0%"},
+      ]},
+      { title: "Force Feedback Shaping", rows: [
+        {label:"Mode", value:"Legacy", note:"In Advanced mode, set to personal preferences"},
+        {label:"Slew Rate", value:"Performance"},
+        {label:"Smoothing", value:"Soft 2 or 3"},
+      ]},
+    ]
+  },
+  {
+    id: "vrs_udfp9",
+    brand: "VRS",
+    name: "uDFP9",
+    nm: "9Nm",
+    ingame: [
+      {gain:"60%", lfb:"0%", fx:"22–25%", damping:"28%"},
+      {gain:"65%", lfb:"0%", fx:"20%",    damping:"40%"},
+      {gain:"52%", lfb:"0%", fx:"26%",    damping:"40%"},
+      {gain:"52%", lfb:"0%", fx:"18%",    damping:"40%"},
+    ],
+    groups: [
+      { title: "Basic Settings", rows: [
+        {label:"Rotation Degrees", value:"900"},
+        {label:"End Stop Max Force", value:"100%"},
+        {label:"End Stop Stiffness", value:"5"},
+        {label:"Soft End Stop", value:"OFF"},
+      ]},
+      { title: "General", rows: [
+        {label:"Max Force", value:"100%"},
+        {label:"Static Force Reduction", value:"3%"},
+        {label:"Non Linearity", value:"0%"},
+      ]},
+      { title: "Effects", rows: [
+        {label:"Damping", value:"0%"},
+        {label:"Friction", value:"8%"},
+        {label:"Inertia", value:"0%"},
+        {label:"Spring", value:"0%"},
+      ]},
+      { title: "Force Feedback Shaping", rows: [
+        {label:"Mode", value:"Legacy", note:"In Advanced mode, set to personal preferences"},
+        {label:"Slew Rate", value:"Performance"},
+        {label:"Smoothing", value:"Soft 2 or 3"},
+      ]},
+    ]
+  },
+  {
+    id: "vrs_udfp12",
+    brand: "VRS",
+    name: "uDFP12",
+    nm: "12Nm",
+    ingame: [
+      {gain:"60%", lfb:"0%", fx:"22–25%", damping:"28%"},
+      {gain:"65%", lfb:"0%", fx:"20%",    damping:"40%"},
+      {gain:"52%", lfb:"0%", fx:"26%",    damping:"40%"},
+      {gain:"52%", lfb:"0%", fx:"18%",    damping:"40%"},
+    ],
+    groups: [
+      { title: "Basic Settings", rows: [
+        {label:"Rotation Degrees", value:"900"},
+        {label:"End Stop Max Force", value:"100%"},
+        {label:"End Stop Stiffness", value:"5"},
+        {label:"Soft End Stop", value:"OFF"},
+      ]},
+      { title: "General", rows: [
+        {label:"Max Force", value:"84%", note:"10Nm is sweet spot — increase or decrease to taste"},
+        {label:"Static Force Reduction", value:"4%"},
+        {label:"Non Linearity", value:"0%"},
+      ]},
+      { title: "Effects", rows: [
+        {label:"Damping", value:"0%"},
+        {label:"Friction", value:"8%"},
+        {label:"Inertia", value:"0%"},
+        {label:"Spring", value:"0%"},
+      ]},
+      { title: "Force Feedback Shaping", rows: [
+        {label:"Mode", value:"Legacy", note:"In Advanced mode, set to personal preferences"},
+        {label:"Slew Rate", value:"Performance"},
+        {label:"Smoothing", value:"Soft 2 or 3"},
+      ]},
+    ]
+  },
+  {
+    id: "vrs_udfp15",
+    brand: "VRS",
+    name: "uDFP15",
+    nm: "15Nm",
+    ingame: [
+      {gain:"60%", lfb:"0%", fx:"22–25%", damping:"28%"},
+      {gain:"65%", lfb:"0%", fx:"20%",    damping:"40%"},
+      {gain:"52%", lfb:"0%", fx:"26%",    damping:"40%"},
+      {gain:"52%", lfb:"0%", fx:"18%",    damping:"40%"},
+    ],
+    groups: [
+      { title: "Basic Settings", rows: [
+        {label:"Rotation Degrees", value:"900"},
+        {label:"End Stop Max Force", value:"100%"},
+        {label:"End Stop Stiffness", value:"5"},
+        {label:"Soft End Stop", value:"OFF"},
+      ]},
+      { title: "General", rows: [
+        {label:"Max Force", value:"67%", note:"10Nm is sweet spot — increase or decrease to taste"},
+        {label:"Static Force Reduction", value:"4%"},
+        {label:"Non Linearity", value:"0%"},
+      ]},
+      { title: "Effects", rows: [
+        {label:"Damping", value:"0%"},
+        {label:"Friction", value:"8%"},
+        {label:"Inertia", value:"0%"},
+        {label:"Spring", value:"0%"},
+      ]},
+      { title: "Force Feedback Shaping", rows: [
+        {label:"Mode", value:"Legacy", note:"In Advanced mode, set to personal preferences"},
+        {label:"Slew Rate", value:"Performance"},
+        {label:"Smoothing", value:"Soft 2 or 3"},
+      ]},
+    ]
+  },
+  {
+    id: "vrs_udfp20",
+    brand: "VRS",
+    name: "uDFP20",
+    nm: "20Nm",
+    ingame: [
+      {gain:"60%", lfb:"0%", fx:"22–25%", damping:"28%"},
+      {gain:"65%", lfb:"0%", fx:"20%",    damping:"40%"},
+      {gain:"52%", lfb:"0%", fx:"26%",    damping:"40%"},
+      {gain:"52%", lfb:"0%", fx:"18%",    damping:"40%"},
+    ],
+    groups: [
+      { title: "Basic Settings", rows: [
+        {label:"Rotation Degrees", value:"900"},
+        {label:"End Stop Max Force", value:"100%"},
+        {label:"End Stop Stiffness", value:"5"},
+        {label:"Soft End Stop", value:"OFF"},
+      ]},
+      { title: "General", rows: [
+        {label:"Max Force", value:"50%", note:"10Nm is sweet spot — increase or decrease to taste"},
+        {label:"Static Force Reduction", value:"4%"},
+        {label:"Non Linearity", value:"0%"},
+      ]},
+      { title: "Effects", rows: [
+        {label:"Damping", value:"0%"},
+        {label:"Friction", value:"8%"},
+        {label:"Inertia", value:"0%"},
+        {label:"Spring", value:"0%"},
+      ]},
+      { title: "Force Feedback Shaping", rows: [
+        {label:"Mode", value:"Legacy", note:"In Advanced mode, set to personal preferences"},
+        {label:"Slew Rate", value:"Performance"},
+        {label:"Smoothing", value:"Soft 2 or 3"},
+      ]},
+    ]
+  },
+];
+
+// Sort alphabetically by brand then name
+BASES.sort((a,b) => {
+  const ba = (a.brand + ' ' + a.name).toLowerCase();
+  const bb = (b.brand + ' ' + b.name).toLowerCase();
+  return ba < bb ? -1 : ba > bb ? 1 : 0;
+});
+
+const VEHICLE_TYPES = [
+  { label: "Standard", short: "Standard" },
+  { label: "Karts (incl. Superkart)", short: "Karts" },
+  { label: "Off-Road (Formula Dirt / Kart Cross / RX)", short: "Off-Road" },
+  { label: "Street Cars (Super / Hyper / TS Cup)", short: "Street Cars" },
+];
+
+let currentVehicle = 0;
+
+// Populate select
+const sel = document.getElementById('baseSelect');
+let lastBrand = '';
+BASES.forEach(b => {
+  if (b.brand !== lastBrand) {
+    const og = document.createElement('optgroup');
+    og.label = '── ' + b.brand + ' ──';
+    sel.appendChild(og);
+    lastBrand = b.brand;
+  }
+  const opt = document.createElement('option');
+  opt.value = b.id;
+  opt.textContent = b.brand + ' ' + b.name + '  (' + b.nm + ')';
+  sel.lastChild.appendChild(opt);
+});
+
+function showBase(id) {
+  const base = BASES.find(b => b.id === id);
+  if (!base) {
+    document.getElementById('placeholder').style.display = 'block';
+    document.getElementById('panel').style.display = 'none';
+    return;
+  }
+  document.getElementById('placeholder').style.display = 'none';
+  document.getElementById('panel').style.display = 'block';
+
+  document.getElementById('baseNameTitle').textContent = base.brand + ' ' + base.name;
+  document.getElementById('baseNmBadge').textContent = base.nm;
+
+  // Build vehicle tabs
+  const tabs = document.getElementById('vehicleTabs');
+  tabs.innerHTML = '';
+  VEHICLE_TYPES.forEach((v, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'vtab' + (i === currentVehicle ? ' active' : '');
+    btn.textContent = v.short;
+    btn.title = v.label;
+    btn.onclick = () => selectVehicle(i);
+    tabs.appendChild(btn);
+  });
+
+  renderIngame(base);
+  renderSettings(base);
+}
+
+function selectVehicle(idx) {
+  currentVehicle = idx;
+  const id = document.getElementById('baseSelect').value;
+  const base = BASES.find(b => b.id === id);
+  if (!base) return;
+  document.querySelectorAll('.vtab').forEach((t,i) => t.classList.toggle('active', i===idx));
+  renderIngame(base);
+}
+
+function renderIngame(base) {
+  const ig = base.ingame[currentVehicle];
+  const grid = document.getElementById('igGrid');
+  grid.innerHTML = '';
+  const fields = [
+    {label:'Gain',    value: ig.gain},
+    {label:'LFB',     value: ig.lfb},
+    {label:'FX',      value: ig.fx},
+    {label:'Damping', value: ig.damping},
+  ];
+  fields.forEach(f => {
+    grid.innerHTML += `<div class="igval-card">
+      <div class="igval-label">${f.label}</div>
+      <div class="igval-value">${f.value}</div>
+    </div>`;
+  });
+}
+
+function renderSettings(base) {
+  const grid = document.getElementById('settingsGrid');
+  grid.innerHTML = '';
+  base.groups.forEach(g => {
+    let rowsHtml = '';
+    g.rows.forEach(r => {
+      rowsHtml += `<div class="setting-row">
+        <span class="s-label">${r.label}</span>
+        <span class="s-value">${r.value}</span>
+      </div>`;
+      if (r.note) {
+        rowsHtml += `<div class="s-note">ℹ ${r.note}</div>`;
+      }
+    });
+    grid.innerHTML += `<div class="settings-group">
+      <div class="group-title">${g.title}</div>
+      <div class="group-rows">${rowsHtml}</div>
+    </div>`;
+  });
+}
+</script>
+</body>
+</html>
