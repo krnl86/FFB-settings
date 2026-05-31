@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Settings for Danielkarts Topspeed Custom File for AMS2</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;500;600;700;800&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#ffffff; --surface:#f5f5f5; --card:#fafafa; --border:#e0e0e0;
+    --accent:#cc0000; --accent2:#990000; --text:#1a1a1a; --muted:#666666;
+    --label:#444444; --val:#000000; --heading:#000000;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Barlow',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;}
+
+  header{background:#fff;border-bottom:3px solid var(--accent);padding:22px 20px 16px;text-align:center;}
+  .header-top{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;margin-bottom:8px;}
+  .logo-mark{width:40px;height:40px;background:var(--accent);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  h1{font-family:'Barlow Condensed',sans-serif;font-size:clamp(17px,4vw,27px);font-weight:800;color:var(--heading);text-transform:uppercase;line-height:1.1;}
+  h1 span{color:var(--accent);}
+  .header-meta{display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap;margin-top:8px;}
+  .version-tag{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;color:#fff;background:var(--accent);padding:3px 10px;text-transform:uppercase;}
+  .credit{font-size:13px;color:var(--muted);}
+  .credit a{color:var(--accent);text-decoration:none;font-weight:600;border-bottom:1px solid transparent;transition:border-color .2s;}
+  .credit a:hover{border-color:var(--accent);}
+
+  main{max-width:1100px;margin:0 auto;padding:24px 14px 60px;}
+
+  .selector-wrap{background:var(--surface);border:1px solid var(--border);border-left:4px solid var(--accent);padding:16px 18px;margin-bottom:24px;}
+  .selector-label{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;color:var(--accent);text-transform:uppercase;margin-bottom:8px;}
+  select{width:100%;background:#fff;color:var(--heading);border:2px solid var(--border);padding:9px 34px 9px 11px;font-family:'Barlow',sans-serif;font-size:15px;font-weight:500;cursor:pointer;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23cc0000' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 11px center;outline:none;transition:border-color .2s;}
+  select:focus{border-color:var(--accent);}
+  select option{background:#fff;color:#000;}
+
+  #placeholder{text-align:center;padding:56px 20px;color:var(--muted);font-size:16px;border:2px dashed var(--border);}
+  #placeholder .icon{font-size:38px;margin-bottom:10px;opacity:.3;}
+  #panel{display:none;animation:fadeIn .25s ease;}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+
+  .base-title-bar{background:var(--accent);padding:11px 16px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:18px;}
+  .base-title-bar h2{font-family:'Barlow Condensed',sans-serif;font-size:clamp(15px,3.5vw,21px);font-weight:800;color:#fff;text-transform:uppercase;letter-spacing:1px;flex:1;}
+  .nm-badge{font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;color:var(--accent);background:#fff;padding:3px 10px;white-space:nowrap;letter-spacing:1px;}
+
+  .section-block{margin-bottom:22px;}
+  .section-heading{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:3px;color:var(--accent);text-transform:uppercase;border-bottom:2px solid var(--accent);padding-bottom:5px;margin-bottom:11px;}
+
+  .vehicle-tabs{display:flex;gap:0;flex-wrap:wrap;margin-bottom:11px;border:1px solid var(--border);}
+  .vtab{flex:1;min-width:85px;background:var(--surface);border:none;border-right:1px solid var(--border);color:var(--muted);padding:8px 8px;font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:600;letter-spacing:1px;cursor:pointer;text-transform:uppercase;transition:all .15s;text-align:center;}
+  .vtab:last-child{border-right:none;}
+  .vtab:hover{background:#fff;color:var(--accent);}
+  .vtab.active{background:var(--accent);color:#fff;}
+
+  .igvals{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
+  @media(max-width:540px){
+    .igvals{grid-template-columns:repeat(2,1fr);}
+    .vtab{font-size:11px;padding:7px 4px;}
+  }
+  .igval-card{background:#fff;border:1px solid var(--border);border-top:3px solid var(--accent);padding:9px 11px;}
+  .igval-label{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:3px;}
+  .igval-value{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:700;color:var(--accent);line-height:1;}
+
+  .settings-grid{display:grid;gap:10px;grid-template-columns:1fr;}
+  @media(min-width:700px){.settings-grid{grid-template-columns:1fr 1fr;}}
+  .settings-group{background:#fff;border:1px solid var(--border);overflow:hidden;}
+  .group-title{background:var(--surface);border-bottom:1px solid var(--border);border-left:3px solid var(--accent);padding:6px 11px;font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;color:var(--accent2);text-transform:uppercase;}
+  .setting-row{display:flex;justify-content:space-between;align-items:baseline;gap:9px;padding:6px 11px;border-bottom:1px solid #f0f0f0;transition:background .1s;}
+  .setting-row:last-child{border-bottom:none;}
+  .setting-row:hover{background:#fff5f5;}
+  .s-label{font-size:13px;font-weight:400;color:var(--label);flex:1;min-width:0;}
+  .s-value{font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:700;color:var(--val);text-align:right;white-space:nowrap;flex-shrink:0;}
+  .s-note{font-size:11px;color:var(--muted);font-style:italic;padding:0 11px 5px;background:#fffafa;border-bottom:1px solid #f0f0f0;}
+
+  footer{text-align:center;padding:16px;font-size:12px;color:var(--muted);border-top:1px solid var(--border);letter-spacing:.4px;}
+  footer strong{color:var(--accent);}
+</style>
+</head>
+<body>
+<header>
+  <div class="header-top">
+    <div class="logo-mark">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+        <path d="M12 3L4 7v5c0 4.4 3.4 8.5 8 9.5 4.6-1 8-5.1 8-9.5V7L12 3z" fill="white"/>
+      </svg>
+    </div>
+    <h1>Settings for <span>Danielkarts</span> Topspeed<br>Custom File for AMS2</h1>
+  </div>
+  <div class="header-meta">
+    <span class="version-tag">Version 1.6</span>
+    <span class="credit">Custom FFB by <a href="https://www.overtake.gg/downloads/danielkarts-topspeed-custom-file-1-0-for-8-32nm.81637/updates#resource-update-149837" target="_blank" rel="noopener">Danielkart @ Overtake.gg</a></span>
+    <span class="credit">Valid for file version 1.6 only</span>
+  </div>
+</header>
+
+<main>
+  <div class="selector-wrap">
+    <div class="selector-label">Select your wheel base</div>
+    <select id="baseSelect" onchange="showBase(this.value)">
+      <option value="">— Choose a base —</option>
+    </select>
+  </div>
+  <div id="placeholder"><div class="icon">🎮</div>Select your wheel base above to view FFB settings</div>
+  <div id="panel">
+    <div class="base-title-bar"><h2 id="baseNameTitle"></h2><span class="nm-badge" id="baseNmBadge"></span></div>
+    <div class="section-block">
+      <div class="section-heading">In-Game Settings</div>
+      <div class="vehicle-tabs" id="vehicleTabs"></div>
+      <div class="igvals" id="igGrid"></div>
+    </div>
+    <div class="section-block">
+      <div class="section-heading">Base / Hardware Settings</div>
+      <div class="settings-grid" id="settingsGrid"></div>
+    </div>
+  </div>
+</main>
+
+<footer><strong>Danielkarts Topspeed Custom File v1.6</strong> &nbsp;·&nbsp; rFuktor 5.0.1 by Karsten with Shadak &amp; Panos &nbsp;·&nbsp; Settings valid for v1.6 only</footer>
+
+<script>
+const B=[
+ // ASSETEK
+ {id:"as_forte",brand:"Assetek",name:"Forte",nm:"18Nm",
+  ig:[{g:"60%",l:"0%",f:"22–25%",d:"35%"},{g:"65%",l:"0%",f:"20%",d:"40%"},{g:"52%",l:"0%",f:"26%",d:"40%"},{g:"52%",l:"0%",f:"18%",d:"40%"}],
+  gr:[{t:"Base Settings",r:[{l:"Steering range",v:"900"},{l:"Bumpstop Hardness",v:"Medium"},{l:"Bumpstop range",v:"0"},{l:"High-Frequency Limit",v:"3300"},{l:"Damping",v:"0%"},{l:"Friction",v:"8%"},{l:"Inertia",v:"OFF",n:"Can be increased for very light wheels"},{l:"Cornering Force Assist",v:"1",n:"Reduces high forces in curves, increases fine detail. Rally Cars: 2 or 3"},{l:"Overall Force",v:"10Nm",n:"10Nm sweet spot — increase or decrease to taste"},{l:"Torque Behavior Prediction",v:"0"},{l:"Torque Acceleration Limit",v:"Max"},{l:"Anti-Oscillation",v:"0%"}]}]},
+ {id:"as_init5",brand:"Assetek",name:"Initium (5Nm)",nm:"5Nm",
+  ig:[{g:"62%",l:"0%",f:"22–25%",d:"35%"},{g:"67%",l:"0%",f:"20%",d:"40%"},{g:"55%",l:"0%",f:"26%",d:"40%"},{g:"55%",l:"0%",f:"18%",d:"40%"}],
+  gr:[{t:"Base Settings",r:[{l:"Steering range",v:"900"},{l:"Bumpstop Hardness",v:"Medium"},{l:"Bumpstop range",v:"0"},{l:"High-Frequency Limit",v:"No limit"},{l:"Damping",v:"0%"},{l:"Friction",v:"12%"},{l:"Inertia",v:"0%"},{l:"Cornering Force Assist",v:"0%"},{l:"Overall Force",v:"5Nm"},{l:"Torque Behavior Prediction",v:"OFF"},{l:"Torque Acceleration Limit",v:"2.5/ms"},{l:"Anti-Oscillation",v:"0%"}]}]},
+ {id:"as_init8",brand:"Assetek",name:"Initium (Boost-Kit)",nm:"8Nm",
+  ig:[{g:"60%",l:"0%",f:"22–25%",d:"35%"},{g:"65%",l:"0%",f:"20%",d:"40%"},{g:"52%",l:"0%",f:"26%",d:"40%"},{g:"52%",l:"0%",f:"18%",d:"40%"}],
+  gr:[{t:"Base Settings",r:[{l:"Steering range",v:"900"},{l:"Bumpstop Hardness",v:"Medium"},{l:"Bumpstop range",v:"0"},{l:"High-Frequency Limit",v:"No limit"},{l:"Damping",v:"0%"},{l:"Friction",v:"10%"},{l:"Inertia",v:"0%"},{l:"Cornering Force Assist",v:"0%"},{l:"Overall Force",v:"8Nm"},{l:"Torque Behavior Prediction",v:"OFF"},{l:"Torque Acceleration Limit",v:"2.5/ms"},{l:"Anti-Oscillation",v:"0%"}]}]},
+ {id:"as_invicta",brand:"Assetek",name:"Invicta",nm:"27Nm",
+  ig:[{g:"60%",l:"0%",f:"22–25%",d:"35%"},{g:"65%",l:"0%",f:"20%",d:"40%"},{g:"52%",l:"0%",f:"26%",d:"40%"},{g:"52%",l:"0%",f:"18%",d:"40%"}],
+  gr:[{t:"Base Settings",r:[{l:"Steering range",v:"900"},{l:"Bumpstop Hardness",v:"Medium"},{l:"Bumpstop range",v:"0"},{l:"High-Frequency Limit",v:"3300"},{l:"Damping",v:"0%"},{l:"Friction",v:"8%"},{l:"Inertia",v:"OFF",n:"Can be increased for very light wheels"},{l:"Cornering Force Assist",v:"1",n:"Reduces high forces in curves, increases fine detail. Rally Cars: 2 or 3"},{l:"Overall Force",v:"10Nm",n:"10Nm sweet spot — increase or decrease to taste"},{l:"Torque Behavior Prediction",v:"0"},{l:"Torque Acceleration Limit",v:"Max"},{l:"Anti-Oscillation",v:"0%"}]}]},
+ {id:"as_laprima",brand:"Assetek",name:"La Prima",nm:"12Nm",
+  ig:[{g:"60%",l:"0%",f:"22–25%",d:"35%"},{g:"65%",l:"0%",f:"20%",d:"40%"},{g:"52%",l:"0%",f:"26%",d:"40%"},{g:"52%",l:"0%",f:"18%",d:"40%"}],
+  gr:[{t:"Base Settings",r:[{l:"Steering range",v:"900"},{l:"Bumpstop Hardness",v:"Medium"},{l:"Bumpstop range",v:"0"},{l:"High-Frequency Limit",v:"3300"},{l:"Damping",v:"0%"},{l:"Friction",v:"8%"},{l:"Inertia",v:"OFF",n:"Can be increased for very light wheels"},{l:"Cornering Force Assist",v:"1",n:"Reduces high forces in curves, increases fine detail"},{l:"Overall Force",v:"10Nm",n:"10Nm sweet spot — increase or decrease to taste"},{l:"Torque Behavior Prediction",v:"0"},{l:"Torque Acceleration Limit",v:"Max"},{l:"Anti-Oscillation",v:"0%"}]}]},
+ // CAMMUS
+ {id:"cam_c5",brand:"Cammus",name:"C5",nm:"5Nm",
+  ig:[{g:"62%",l:"0%",f:"22–25%",d:"35%"},{g:"65%",l:"0%",f:"20%",d:"40%"},{g:"54%",l:"0%",f:"26%",d:"40%"},{g:"54%",l:"0%",f:"18%",d:"40%"}],
+  gr:[{t:"Base Settings",r:[{l:"Steering Range",v:"900"},{l:"Power",v:"100%"},{l:"Natural Damping",v:"0%"},{l:"Natural Friction",v:"10%"},{l:"Natural Inertia",v:"0%",n:"Can be increased for very light wheels"},{l:"Idle Spring",v:"0%"}]},{t:"Game Effects",r:[{l:"Effects Intensity",v:"100%"},{l:"CF Filter",v:"50%"},{l:"Q Filter",v:"50%"},{l:"Game Friction",v:"50%"},{l:"Game Spring",v:"50%"}]},{t:"Assistance",r:[{l:"FFB Invert",v:"OFF"},{l:"Hands-off Protection",v:"Disable"},{l:"End Stop Strength",v:"Hard"},{l:"High Speed Stability Assist",v:"All Linear"}]},{t:"Overheat Protection",r:[{l:"Temperature Threshold",v:"85°C"}]}]},
+ {id:"cam_c12",brand:"Cammus",name:"C12",nm:"12Nm",
+  ig:[{g:"60%",l:"0%",f:"22–25%",d:"35%"},{g:"65%",l:"0%",f:"20%",d:"40%"},{g:"52%",l:"0%",f:"26%",d:"40%"},{g:"52%",l:"0%",f:"18%",d:"40%"}],
+  gr:[{t:"Base Settings",r:[{l:"Steering Range",v:"900"},{l:"Power",v:"84%",n:"10Nm sweet spot — increase or decrease to taste"},{l:"Natural Damping",v:"0%"},{l:"Natural Friction",v:"8%"},{l:"Natural Inertia",v:"0%",n:"Can be increased for very light wheels"},{l:"Idle Spring",v:"0%"}]},{t:"Game Effects",r:[{l:"Effects Intensity",v:"100%"},{l:"CF Filter",v:"50%"},{l:"Q Filter",v:"50%"},{l:"Game Friction",v:"50%"},{l:"Game Spring",v:"50%"}]},{t:"Assistance",r:[{l:"FFB Invert",v:"OFF"},{l:"Hands-off Protection",v:"Disable"},{l:"End Stop Strength",v:"Hard"},{l:"High Speed Stability Assist",v:"All Linear"}]},{t:"Overheat Protection",r:[{l:"Temperature Threshold",v:"85°C"}]}]},
+ {id:"cam_c15",brand:"Cammus",name:"C15",nm:"15Nm",
+  ig:[{g:"60%",l:"0%",f:"22–25%",d:"35%"},{g:"65%",l:"0%",f:"20%",d:"40%"},{g:"52%",l:"0%",f:"26%",d:"40%"},{g:"52%",l:"0%",f:"18%",d:"40%"}],
+  gr:[{t:"Base Settings",r:[{l:"Steering Range",v:"900"},{l:"Power",v:"67%",n:"10Nm sweet spot — increase or decrease to taste"},{l:"Natural Damping",v:"0%"},{l:"Natural Friction",v:"8%"},{l:"Natural Inertia",v:"0%",n:"Can be increased for very light wheels"},{l:"Idle Spring",v:"0%"}]},{t:"Game Effects",r:[{l:"Effects Intensity",v:"100%"},{l:"CF Filter",v:"50%"},{l:"Q Filter",v:"50%"},{l:"Game Friction",v:"50%"},{l:"Game Spring",v:"50%"}]},{t:"Assistance",r:[{l:"FFB Invert",v:"OFF"},{l:"Hands-off Protection",v:"Disable"},{l:"End Stop Strength",v:"Hard"},{l:"High Speed Stability Assist",v:"All Linear"}]},{t:"Overheat Protection",r:[{l:"Temperature Threshold",v:"85°C"}]}]},
+ // CONSPIT
+ {id:"co_apex",brand:"Conspit",name:"Ares Apex",nm:"8Nm",
+  ig:[{g:"60%",l:"0%",f:"22–25%",d:"35%"},{g:"65%",l:"0%",f:"20%",d:"40%"},{g:"52%",l:"0%",f:"26%",d:"40%"},{g:"52%",l:"0%",f:"18%",d:"40%"}],
+  gr:[{t:"Basic Settings",r:[{l:"High Torque Mode",v:"ON"},{l:"Range",v:"900"},{l:"Max Force",v:"8Nm"},{l:"Effects Gain",v:"100%"},{l:"Mechanical Friction",v:"8%"},{l:"Mechanical Damper",v:"0%"},{l:"Stop Feel",v:"Stiff"},{l:"Mechanical Inertia",v:"0%"},{l:"Filter Frequency",v:"60–300 Hz",n:"Find ideal frequency to eliminate high-frequency sounds"},{l:"Filter Sharpness",v:"100%"},{l:"Rotation Speed",v:"0%"}]},{t:"Game Settings — DirectInput Effects",r:[{l:"Friction",v:"0%"},{l:"Damper",v:"0%"},{l:"Spring",v:"0%"},{l:"Inertia",v:"0%"},{l:"Centering Force",v:"0%"},{l:"Invert Axis",v:"OFF"},{l:"Invert FFB",v:"OFF"}]}]},
+ {id:"co_ares",brand:"Conspit",name:"Ares",nm:"12Nm",
+  ig:[{g:"60%",l:"0%",f:"22–25%",d:"35%"},{g:"65%",l:"0%",f:"20%",d:"40%"},{g:"52%",l:"0%",f:"26%",d:"40%"},{g:"52%",l:"0%",f:"18%",d:"40%"}],
+  gr:[{t:"Basic Settings",r:[{l:"High Torque Mode",v:"ON"},{l:"Range",v:"900"},{l:"Max Force",v:"12Nm"},{l:"Effects Gain",v:"84%",n:"10Nm sweet spot — increase or decrease to taste"},{l:"Mechanical Friction",v:"8%"},{l:"Mechanical Damper",v:"0%"},{l:"Stop Feel",v:"Stiff"},{l:"Mechanical Inertia",v:"0%"},{l:"Filter Frequency",v:"60–300 Hz",n:"Find ideal frequency to eliminate high-frequency sounds"},{l:"Filter Sharpness",v:"100%"},{l:"Rotation Speed",v:"0%"}]},{t:"Game Settings — DirectInput Effects",r:[{l:"Friction",v:"0%"},{l:"Damper",v:"0%"},{l:"Spring",v:"0%"},{l:"Inertia",v:"0%"},{l:"Centering Force",v:"0%"},{l:"Invert Axis",v:"OFF"},{l:"Invert FFB",v:"OFF"}]}]},
+ {id:"co_plat",brand:"Conspit",name:"Ares Platinum",nm:"20Nm",
+  ig:[{g:"60%",l:"0%",f:"22–25%",d:"35%"},{g:"65%",l:"0%",f:"20%",d:"40%"},{g:"52%",l:"0%",f:"26%",d:"40%"},{g:"52%",l:"0%",f:"18%",d:"40%"}],
+  gr:[{t:"Basic Settings",r:[{l:"High Torque Mode",v:"ON"},{l:"Range",v:"900"},{l:"Max Force",v:"20Nm"},{l:"Effects Gain",v:"50%",n:"10Nm sweet spot — increase or decrease to taste"},{l:"Mechanical Friction",v:"8%"},{l:"Mechanical Damper",v:"0%"},{l:"Stop Feel",v:"Stiff"},{l:"Mechanical Inertia",v:"0%"},{l:"Filter Frequency",v:"60–300 Hz",n:"Find ideal frequency to eliminate high-frequency sounds"},{l:"Filter Sharpness",v:"100%"},{l:"Rotation Speed",v:"0%"}]},{t:"Game Settings — DirectInput Effects",r:[{l:"Friction",v:"0%"},{l:"Damper",v:"0%"},{l:"Spring",v:"0%"},{l:"Inertia",v:"0%"},{l:"Centering Force",v:"0%"},{l:"Invert Axis",v:"OFF"},{l:"Invert FFB",v:"OFF"}]}]},
+ // FANATEC
+ {id:"fn_csdd",brand:"Fanatec",name:"Clubsport DD",nm:"15Nm",
+  ig:[{g:"60%",l:"0%",f:"22–25%",d:"35%"},{g:"65%",l:"0%",f:"20%",d:"40%"},{g:"52%",l:"0%",f:"26%",d:"40%"},{g:"52%",l:"0%",f:"18%",d:"40%"}],
+  gr:[{t:"Base / Fanalab",r:[{l:"SEN",v:"Auto"},{l:"FFB",v:"67%",n:"10Nm sweet spot — increase or decrease to taste"},{l:"FFS",v:"Peak"},{l:"NDP",v:"0%"},{l:"NFR",v:"8%"},{l:"NIN",v:"0%",n:"Can be increased for very light wheels"},{l:"INT",v:"1–3"},{l:"FEI",v:"60%–90%"},{l:"FOR",v:"100%"},{l:"SPR",v:"100%"},{l:"DPR",v:"100%"},{l:"BLI",v:"OFF"}]}]},
+ {id:"fn_csddp",brand:"Fanatec",name:"Clubsport DD+",nm:"18Nm",
+  ig:[{g:"60%",l:"0%",f:"22–25%",d:"35%"},{g:"65%",l:"0%",f:"20%",d:"40%"},{g:"52%",l:"0%",f:"26%",d:"40%"},{g:"52%",l:"0%",f:"18%",d:"40%"}],
+  gr:[{t:"Base / Fanalab",r:[{l:"SEN",v:"Auto"},{l:"FFB",v:"56%",n:"10Nm sweet spot — increase or decrease to taste"},{l:"FFS",v:"Peak"},{l:"NDP",v:"0%"},{l:"NFR",v:"8%"},{l:"NIN",v:"0%",n:"Can be increased for very light wheels"},{l:"INT",v:"1–3"},{l:"FEI",v:"60%–90%"},{l:"FOR",v:"100%"},{l:"SPR",v:"100%"},{l:"DPR",v:"100%"},{l:"BLI",v:"OFF"}]}]},
+ {id:"fn_cslb",brand:"Fanatec",name:"CSL DD (Boost)",nm:"8Nm",
+  ig:[{g:"60%",l:"0%",f:"22–25%",d:"35%"},{g:"65%",l:"0%",f:"20%",d:"40%"},{g:"52%",l:"0%",f:"26%",d:"40%"},{g:"52%",l:"0%",f:"18%",d:"40%"}],
+  gr:[{t:"Base / Fanalab",r:[{l:"SEN",v:"Auto"},{l:"FFB",v:"100%"},{l:"FFS",v:"Peak"},{l:"NDP",v:"0%"},{l:"NFR",v:"8%"},{l:"NIN",v:"0%",n:"Can be increased for very light wheels"},{l:"INT",v:"1–3"},{l:"FEI",v:"60%–90%"},{l:"FOR",v:"100%"},{l:"SPR",v:"100%"},{l:"DPR",v:"100%"},{l:"BLI",v:"OFF"}]}]},
+ {id:"fn_csln",brand:"Fanatec",name:"CSL DD (No Boost)",nm:"5Nm",
+  ig:[{g:"62%",l:"0%",f:"22–25%",d:"35%"},{g:"65%",l:"0%",f:"20%",d:"40%"},{g:"54%",l:"0%",f:"26%",d:"40%"},{g:"54%",l:"0%",f:"18%",d:"40%"}],
+  gr:[{t:"Base / Fanalab",r:[{l:"SEN",v:"Auto"},{l:"FFB",v:"100%"},{l:"FFS",v:"Peak"},{l:"NDP",v:"0%"},{l:"NFR",v:"8%"},{l:"NIN",v:"0%"},{l:"INT",v:"1–3"},{l:"FEI",v:"60%–90%"},{l:"FOR",v:"100%"},{l:"SPR",v:"100%"},{l:"DPR",v:"100%"},{l:"BLI",v:"OFF"}]}]},
+ {id:"fn_csle",brand:"Fanatec",name:"CSL Elite",nm:"6.3Nm",
+  ig:[{g:"60%",l:"0%",f:"22–25%",d:"35%"},{g:"65%",l:"0%",f:"23%",d:"40%"},{g:"52%",l:"0%",f:"28%",d:"40%"},{g:"52%",l:"0%",f:"22%",d:"40%"}],
+  gr:[{t:"Base / Fanalab",r:[{l:"SEN",v:"Auto"},{l:"FFB",v:"90–100%"},{l:"DRI",v:"-1 or 0"},{l:"FEI",v:"60%–80%"},{l:"FOR",v:"100%"},{l:"SPR",v:"OFF"},{l:"DPR",v:"OFF"}]}]},
+ {id:"fn_cswv1",brand:"Fanatec",name:"CSW V1",nm:"5Nm",
+  ig:[{g:"60%",l:"0%",f:"25%",d:"35%"},{g:"65%",l:"0%",f:"25%",d:"40%"},{g:"52%",l:"0%",f:"32%",d:"40%"},{g:"52%",l:"0%",f:"25%",d:"40%"}],
+  gr:[{t:"Base / Fanalab",r:[{l:"SEN",v:"Auto"},{l:"FFB",v:"100%"},{l:"DRI",v:"1 or 2"},{l:"FEI",v:"60%–70%"},{l:"FOR",v:"100%"},{l:"SPR",v:"OFF"},{l:"DPR",v:"OFF"}]}]},
+ {id:"fn_csw25",brand:"Fanatec",name:"CSW 2.5",nm:"8Nm",
+  ig:[{g:"60%",l:"0%",f:"22–25%",d:"35%"},{g:"65%",l:"0%",f:"23%",d:"40%"},{g:"52%",l:"0%",f:"28%",d:"40%"},{g:"52%",l:"0%",f:"22%",d:"40%"}],
+  gr:[{t:"Base / Fanalab",r:[{l:"SEN",v:"Auto"},{l:"FFB",v:"80–100%"},{l:"DRI",v:"-1 or 0"},{l:"FEI",v:"60%–80%"},{l:"FOR",v:"100%"},{l:"SPR",v:"OFF"},{l:"DPR",v:"OFF"}]}]},
+ {id:"fn_ddnew",brand:"Fanatec",name:"Podium DD (New Gen 2026)",nm:"25Nm",
+  ig:[{g:"60%",l:"0%",f:"22–25%",d:"35%"},{g:"65%",l:"0%",f:"20%",d:"40%"},{g:"52%",l:"0%",f:"26%",d:"40%"},{g:"52%",l:"0%",f:"18%",d:"40%"}],
+  gr:[{t:"Tuning Mode: Standard Custom",r:[{l:"SEN",v:"Auto"},{l:"FFB",v:"40%",n:"10Nm sweet spot — increase or decrease to taste"},{l:"NDP",v:"0%"},{l:"FUL",v:"0%",n:"No FullForce"}]},{t:"Tuning Mode: Advanced Setup1",r:[{l:"SEN",v:"Auto"},{l:"FFB",v:"40%",n:"10Nm sweet spot — increase or decrease to taste"},{l:"FUL",v:"0%",n:"No FullForce"},{l:"NDP",v:"0%"},{l:"NFR",v:"8%"},{l:"NIN",v:"0%",n:"Can be increased for very light wheels"},{l:"INT",v:"1–3"},{l:"FEI",v:"60%–90%"},{l:"FOR",v:"100%"},{l:"SPR",v:"100%"},{l:"DPR",v:"100%"}]}]},
+ {id:"fn_dd1",brand:"Fanatec",name:"Podium DD1",nm:"20Nm",
+  ig:[{g:"60%",l:"0%",f:"22–25%",d:"35%"},{g:"65%",l:"0%",f:"20%",d:"40%"},{g:"52%",l:"0%",f:"26%",d:"40%"},{g:"52%",l:"0%",f:"18%",d:"40%"}],
+  gr:[{t:"Base / Fanalab",r:[{l:"SEN",v:"Auto"},{l:"FFB",v:"50%",n:"10Nm sweet spot — increase or decrease to taste"},{l:"FFS",v:"Peak"},{l:"NDP",v:"0%"},{l:"NFR",v:"8%"},{l:"NIN",v:"0%",n:"Can be increased for very light wheels"},{l:"INT",v:"OFF"},{l:"FEI",v:"20%–30%"},{l:"FOR",v:"100%"},{l:"SPR",v:"100%"},{l:"DPR",v:"100%"},{l:"BLI",v:"OFF"}]}]},
+ {id:"fn_dd2",brand:"Fanatec",name:"Podium DD2",nm:"25Nm",
+  ig:[{g:"60%",l:"0%",f:"22–25%",d:"35%"},{g:"65%",l:"0%",f:"20%",d:"40%"},{g:"52%",l:"0%",f:"26%",d:"40%"},{g:"52%",l:"0%",f:"18%",d:"40%"}],
+  gr:[{t:"Base / Fanalab",r:[{l:"SEN",v:"Auto"},{l:"FFB",v:"40%",n:"10Nm sweet spot — increase or decrease to taste"},{l:"FFS",v:"Peak"},{l:"NDP",v:"0%"},{l:"NFR",v:"8%"},{l:"NIN",v:"0%",n:"Can be increased for very light wheels"},{l:"INT",v:"OFF"},{l:"FEI",v:"20%–30%"},{l:"FOR",v:"100%"},{l:"SPR",v:"100%"},{l:"DPR",v:"100%"},{l:"BLI",v:"OFF"}]}]},
+ // LOGITECH
+ {id:"lg_g2527",brand:"Logitech",name:"G25 / G27 / G29",nm:"2.2–2.5Nm",
+  ig:[{g:"100%",l:"5%",f:"32%",d:"32%"},{g:"100%",l:"5%",f:"34%",d:"32%"},{g:"90%",l:"5%",f:"35%",d:"32%"},{g:"92%",l:"5%",f:"30%",d:"32%"}],
+  gr:[{t:"Base Settings",r:[{l:"Operating Range",v:"900°"},{l:"Sensitivity",v:"50%"},{l:"Centering Spring Strength",v:"20%"},{l:"Centering Spring in non-FFB Games",v:"OFF"},{l:"Apply Settings from Game",v:"On"}]}]},
+ {id:"lg_g920",brand:"Logitech",name:"G920 / G923",nm:"2.2Nm",
+  ig:[{g:"100%",l:"5%",f:"32%",d:"40%"},{g:"100%",l:"5%",f:"34%",d:"40%"},{g:"90%",l:"5%",f:"35%",d:"40%"},{g:"92%",l:"5%",f:"30%",d:"40%"}],
+  gr:[{t:"Base Settings",r:[{l:"Operating Range",v:"900°"},{l:"Sensitivity",v:"50%"},{l:"Centering Spring Strength",v:"20%"},{l:"Centering Spring in non-FFB Games",v:"OFF"},{l:"Apply Settings from Game",v:"On"}]}]},
+ {id:"lg_gpro",brand:"Logitech",name:"G Pro",nm:"11Nm",
+  ig:[{g:"60%",l:"0%",f:"22–25%",d:"35%"},{g:"65%",l:"0%",f:"20%",d:"40%"},{g:"52%",l:"0%",f:"26%",d:"40%"},{g:"52%",l:"0%",f:"18%",d:"40%"}],
+  gr:[{t:"Base Settings",r:[{l:"Operating Angle",v:"900"},{l:"Dampener",v:"0"},{l:"Strength",v:"10Nm",n:"10Nm sweet spot — increase or decrease to taste"},{l:"Force Feedback Filter",v:"0–8",n:"Test different levels to achieve the best result"}]}]},
+ // MOZA
+ {id:"mz_r3",brand:"Moza",name:"R3 V2",nm:"4Nm",
+  ig:[{g:"62%",l:"0%",f:"22–25%",d:"35%"},{g:"65%",l:"0%",f:"20%",d:"40%"},{g:"55%",l:"0%",f:"26%",d:"40%"},{g:"55%",l:"0%",f:"18%",d:"40%"}],
+  gr:[{t:"Angle & Limit",r:[{l:"Steering Angle Sync",v:"ON"},{l:"Soft Limit Stiffness",v:"10"},{l:"Soft Limit Strength",v:"Hard"},{l:"Soft Limit Game Force Strength",v:"On"}]},{t:"Handling Feel",r:[{l:"Game FFB Intensity",v:"100%",n:"Depending on car"},{l:"Professional Game FFB Intensity",v:"100%",n:"Depending on car"},{l:"Maximum Output Torque Limit",v:"95%"},{l:"Force Feedback Reversal",v:"Off"},{l:"Force Feedback Interpolation",v:"0"},{l:"FFB Center Deadzone Compensation",v:"0"},{l:"Gear Shift Vibration Intensity",v:"0–5",n:"According to personal taste"},{l:"Maximum Wheel Speed",v:"100%"},{l:"Hands-Off Protection",v:"Off",n:"Do NOT set to On — can cause FFB anomalies"},{l:"Performance Output",v:"Full"}]},{t:"Base Force Effects",r:[{l:"Natural Damping",v:"0%"},{l:"Natural Friction",v:"8%"},{l:"Natural Inertia",v:"200%"},{l:"Wheel Spring Strength",v:"0%"},{l:"Speed-dependent Damping",v:"0%"},{l:"Start Point Sp.-dep. Damping",v:"0 km/h"}]},{t:"Game Force Effects",r:[{l:"Game Spring",v:"0%"},{l:"Game Damping",v:"0%"},{l:"Game Inertia",v:"0%"},{l:"Game Friction",v:"0%"}]},{t:"FFB Curve & Equalizer",r:[{l:"FFB Effect Equalizer",v:"All 100% (linear)"},{l:"Base FFB Curve",v:"Linear"}]}]},
+ {id:"mz_r5",brand:"Moza",name:"R5 V2",nm:"5Nm",
+  ig:[{g:"60%",l:"0%",f:"22–25%",d:"35%"},{g:"65%",l:"0%",f:"20%",d:"40%"},{g:"52%",l:"0%",f:"26%",d:"40%"},{g:"52%",l:"0%",f:"18%",d:"40%"}],
+  gr:[{t:"Angle & Limit",r:[{l:"Steering Angle Sync",v:"ON"},{l:"Soft Limit Stiffness",v:"10"},{l:"Soft Limit Strength",v:"Hard"},{l:"Soft Limit Game Force Strength",v:"On"}]},{t:"Handling Feel",r:[{l:"Game FFB Intensity",v:"100%",n:"Depending on car"},{l:"Professional Game FFB Intensity",v:"100%",n:"Depending on car"},{l:"Maximum Output Torque Limit",v:"90%"},{l:"Force Feedback Reversal",v:"Off"},{l:"Force Feedback Interpolation",v:"0"},{l:"FFB Center Deadzone Compensation",v:"0"},{l:"Gear Shift Vibration Intensity",v:"0–5",n:"According to personal taste"},{l:"Maximum Wheel Speed",v:"100%"},{l:"Hands-Off Protection",v:"Off",n:"Do NOT set to On — can cause FFB anomalies"},{l:"Performance Output",v:"Full"}]},{t:"Base Force Effects",r:[{l:"Natural Damping",v:"0%"},{l:"Natural Friction",v:"8%"},{l:"Natural Inertia",v:"200%"},{l:"Wheel Spring Strength",v:"0%"},{l:"Speed-dependent Damping",v:"0%"},{l:"Start Point Sp.-dep. Damping",v:"0 km/h"}]},{t:"Game Force Effects",r:[{l:"Game Spring",v:"0%"},{l:"Game Damping",v:"0%"},{l:"Game Inertia",v:"0%"},{l:"Game Friction",v:"0%"}]},{t:"FFB Curve & Equalizer",r:[{l:"FFB Effect Equalizer",v:"All 100% (linear)"},{l:"Base FFB Curve",v:"Linear"}]}]},
+ {id:"mz_r9",brand:"Moza",name:"R9 V2",nm:"9Nm",
+  ig:[{g:"60%",l:"0%",f:"22–25%",d:"35%"},{g:"65%",l:"0%",f:"20%",d:"40%"},{g:"52%",l:"0%",f:"26%",d:"40%"},{g:"52%",l:"0%",f:"18%",d:"40%"}],
+  gr:[{t:"Angle & Limit",r:[{l:"Steering Angle Sync",v:"ON"},{l:"Soft Limit Stiffness",v:"7"},{l:"Soft Limit Strength",v:"Hard"},{l:"Soft Limit Game Force Strength",v:"On"}]},{t:"Handling Feel",r:[{l:"Game FFB Intensity",v:"100%"},{l:"Professional Game FFB Intensity",v:"100%"},{l:"Maximum Output Torque Limit",v:"90%"},{l:"Force Feedback Reversal",v:"Off"},{l:"Force Feedback Interpolation",v:"0"},{l:"FFB Center Deadzone Compensation",v:"0"},{l:"Gear Shift Vibration Intensity",v:"0–5",n:"According to personal taste"},{l:"Maximum Wheel Speed",v:"100%"},{l:"Hands-Off Protection",v:"Off",n:"Do NOT set to On — can cause FFB anomalies"},{l:"Performance Output",v:"Full"}]},{t:"Base Force Effects",r:[{l:"Natural Damping",v:"0%"},{l:"Natural Friction",v:"8%"},{l:"Natural Inertia",v:"200%"},{l:"Wheel Spring Strength",v:"0%"},{l:"Speed-dependent Damping",v:"0%"},{l:"Start Point Sp.-dep. Damping",v:"0 km/h"}]},{t:"Game Force Effects",r:[{l:"Game Spring",v:"0%"},{l:"Game Damping",v:"0%"},{l:"Game Inertia",v:"0%"},{l:"Game Friction",v:"0%"}]},{t:"FFB Curve & Equalizer",r:[{l:"FFB Effect Equalizer",v:"All 100% (linear)"},{l:"Base FFB Curve",v:"Linear"}]}]},
+ {id:"mz_r12",brand:"Moza",name:"R12 V2",nm:"12Nm",
+  ig:[{g:"60%",l:"0%",f:"22–25%",d:"35%"},{g:"65%",l:"0%",f:"20%",d:"40%"},{g:"52%",l:"0%",f:"26%",d:"40%"},{g:"52%",l:"0%",f:"18%",d:"40%"}],
+  gr:[{t:"Angle & Limit",r:[{l:"Steering Angle Sync",v:"ON"},{l:"Soft Limit Stiffness",v:"7"},{l:"Soft Limit Strength",v:"Hard"},{l:"Soft Limit Game Force Strength",v:"On"}]},{t:"Handling Feel",r:[{l:"Game FFB Intensity",v:"84%",n:"10Nm sweet spot — increase or decrease to taste"},{l:"Professional Game FFB Intensity",v:"84%"},{l:"Maximum Output Torque Limit",v:"90%"},{l:"Force Feedback Reversal",v:"Off"},{l:"Force Feedback Interpolation",v:"0"},{l:"FFB Center Deadzone Compensation",v:"0"},{l:"Gear Shift Vibration Intensity",v:"0–5",n:"According to personal taste"},{l:"Maximum Wheel Speed",v:"100%"},{l:"Hands-Off Protection",v:"Off",n:"Do NOT set to On — can cause FFB anomalies"},{l:"Performance Output",v:"Full"}]},{t:"Base Force Effects",r:[{l:"Natural Damping",v:"0%"},{l:"Natural Friction",v:"8%"},{l:"Natural Inertia",v:"190%"},{l:"Wheel Spring Strength",v:"0%"},{l:"Speed-dependent Damping",v:"0%"},{l:"Start Point Sp.-dep. Damping",v:"0 km/h"}]},{t:"Game Force Effects",r:[{l:"Game Spring",v:"0%"},{l:"Game Damping",v:"0%"},{l:"Game Inertia",v:"0%"},{l:"Game Friction",v:"0%"}]},{t:"FFB Curve & Equalizer",r:[{l:"FFB Effect Equalizer",v:"All 100% (linear)"},{l:"Base FFB Curve",v:"Linear"}]}]},
+ {id:"mz_r16",brand:"Moza",name:"R16 V2",nm:"16Nm",
+  ig:[{g:"60%",l:"0%",f:"22–25%",d:"35%"},{g:"65%",l:"0%",f:"20%",d:"40%"},{g:"52%",l:"0%",f:"26%",d:"40%"},{g:"52%",l:"0%",f:"18%",d:"40%"}],
+  gr:[{t:"Angle & Limit",r:[{l:"Steering Angle Sync",v:"ON"},{l:"Soft Limit Stiffness",v:"7"},{l:"Soft Limit Strength",v:"Hard"},{l:"Soft Limit Game Force Strength",v:"On"}]},{t:"Handling Feel",r:[{l:"Game FFB Intensity",v:"62%",n:"10Nm sweet spot — increase or decrease to taste"},{l:"Professional Game FFB Intensity",v:"62%"},{l:"Maximum Output Torque Limit",v:"90%"},{l:"Force Feedback Reversal",v:"Off"},{l:"Force Feedback Interpolation",v:"0"},{l:"FFB Center Deadzone Compensation",v:"0"},{l:"Gear Shift Vibration Intensity",v:"0–5",n:"According to personal taste"},{l:"Maximum Wheel Speed",v:"100%"},{l:"Hands-Off Protection",v:"Off",n:"Do NOT set to On — can cause FFB anomalies"},{l:"Performance Output",v:"Full"}]},{t:"Base Force Effects",r:[{l:"Natural Damping",v:"0%"},{l:"Natural Friction",v:"8%"},{l:"Natural Inertia",v:"180%"},{l:"Wheel Spring Strength",v:"0%"},{l:"Speed-dependent Damping",v:"0%"},{l:"Start Point Sp.-dep. Damping",v:"0 km/h"}]},{t:"Game Force Effects",r:[{l:"Game Spring",v:"0%"},{l:"Game Damping",v:"0%"},{l:"Game Inertia",v:"0%"},{l:"Game Friction",v:"0%"}]},{t:"FFB Curve & Equalizer",r:[{l:"FFB Effect Equalizer",v:"All 100% (linear)"},{l:"Base FFB Curve",v:"Linear"}]}]},
+ {id:"mz_r21v2",brand:"Moza",name:"R21 V2",nm:"21Nm",
+  ig:[{g:"60%",l:"0%",f:"22–25%",d:"35%"},{g:"65%",l:"0%",f:"20%",d:"40%"},{g:"52%",l:"0%",f:"26%",d:"40%"},{g:"52%",l:"0%",f:"18%",d:"40%"}],
+  gr:[{t:"Angle & Limit",r:[{l:"Steering Angle Sync",v:"ON"},{l:"Soft Limit Stiffness",v:"7"},{l:"Soft Limit Strength",v:"Hard"},{l:"Soft Limit Game Force Strength",v:"On"}]},{t:"Handling Feel",r:[{l:"Game FFB Intensity",v:"48%",n:"10Nm sweet spot — increase or decrease to taste"},{l:"Professional Game FFB Intensity",v:"48%"},{l:"Maximum Output Torque Limit",v:"90%"},{l:"Force Feedback Reversal",v:"Off"},{l:"Force Feedback Interpolation",v:"0"},{l:"FFB Center Deadzone Compensation",v:"0"},{l:"Gear Shift Vibration Intensity",v:"0–5",n:"According to personal taste"},{l:"Maximum Wheel Speed",v:"100%"},{l:"Hands-Off Protection",v:"Off",n:"Do NOT set to On — can cause FFB anomalies"},{l:"Performance Output",v:"Full"}]},{t:"Base Force Effects",r:[{l:"Natural Damping",v:"0%"},{l:"Natural Friction",v:"8%"},{l:"Natural Inertia",v:"180%"},{l:"Wheel Spring Strength",v:"0%"},{l:"Speed-dependent Damping",v:"0%"},{l:"Start Point Sp.-dep. Damping",v:"0 km/h"}]},{t:"Game Force Effects",r:[{l:"Game Spring",v:"0%"},{l:"Game Damping",v:"0%"},{l:"Game Inertia",v:"0%"},{l:"Game Friction",v:"0%"}]},{t:"FFB Curve & Equalizer",r:[{l:"FFB Effect Equalizer",v:"All 100% (linear)"},{l:"Base FFB Curve",v:"Linear"}]}]},
+ {id:"mz_r21u",brand:"Moza",name:"R21 Ultra",nm:"21Nm",
+  ig:[{g:"60%",l:"0%",f:"22–25%",d:"35%"},{g:"65%",l:"0%",f:"20%",d:"40%"},{g:"52%",l:"0%",f:"26%",d:"40%"},{g:"52%",l:"0%",f:"18%",d:"40%"}],
+  gr:[{t:"Angle & Limit",r:[{l:"Steering Angle Sync",v:"ON"},{l:"Soft Limit Stiffness",v:"7"},{l:"Soft Limit Strength",v:"Hard"},{l:"Soft Limit Game Force Strength",v:"On"}]},{t:"Handling Feel",r:[{l:"Game FFB Intensity",v:"48%",n:"10Nm sweet spot — increase or decrease to taste"},{l:"Professional Game FFB Intensity",v:"48%"},{l:"Maximum Output Torque Limit",v:"90%"},{l:"Force Feedback Reversal",v:"Off"},{l:"Force Feedback Interpolation",v:"0"},{l:"FFB Center Deadzone Compensation",v:"0"},{l:"Gear Shift Vibration Intensity",v:"0–5",n:"According to personal taste"},{l:"Maximum Wheel Speed",v:"100%"},{l:"Hands-Off Protection",v:"Off",n:"Do NOT set to On — can cause FFB anomalies"},{l:"Performance Output",v:"Full"}]},{t:"Base Force Effects",r:[{l:"Natural Damping",v:"0%"},{l:"Natural Friction",v:"8%"},{l:"Natural Inertia",v:"180%"},{l:"Wheel Spring Strength",v:"0%"},{l:"Speed-dependent Damping",v:"0%"},{l:"Start Point Sp.-dep. Damping",v:"0 km/h"}]},{t:"Game Force Effects",r:[{l:"Game Spring",v:"0%"},{l:"Game Damping",v:"0%"},{l:"Game Inertia",v:"0%"},{l:"Game Friction",v:"0%"}]},{t:"FFB Curve & Equalizer",r:[{l:"FFB Effect Equalizer",v:"All 100% (linear)"},{l:"Base FFB Curve",v:"Linear"}]}]},
+ {id:"mz_r25u",brand:"Moza",name:"R25 Ultra",nm:"25Nm",
+  ig:[{g:"60%",l:"0%",f:"22–25%",d:"35%"},{g:"65%",l:"0%",f:"20%",d:"40%"},{g:"52%",l:"0%",f:"26%",d:"40%"},{g:"52%",l:"0%",f:"18%",d:"40%"}],
+  gr:[{t:"Angle & Limit",r:[{l:"Steering Angle Sync",v:"ON"},{l:"Soft Limit Stiffness",v:"7"},{l:"Soft Limit Strength",v:"Hard"},{l:"Soft Limit Game Force Strength",v:"On"}]},{t:"Handling Feel",r:[{l:"Game FFB Intensity",v:"40%",n:"10Nm sweet spot — increase or decrease to taste"},{l:"Professional Game FFB Intensity",v:"40%"},{l:"Maximum Output Torque Limit",v:"90%"},{l:"Force Feedback Reversal",v:"Off"},{l:"Force Feedback Interpolation",v:"0"},{l:"FFB Center Deadzone Compensation",v:"0"},{l:"Gear Shift Vibration Intensity",v:"0–5",n:"According to personal taste"},{l:"Maximum Wheel Speed",v:"100%"},{l:"Hands-Off Protection",v:"Off",n:"Do NOT set to On — can cause FFB anomalies"},{l:"Performance Output",v:"Full"}]},{t:"Base Force Effects",r:[{l:"Natural Damping",v:"0%"},{l:"Natural Friction",v:"8%"},{l:"Natural Inertia",v:"180%"},{l:"Wheel Spring Strength",v:"0%"},{l:"Speed-dependent Damping",v:"0%"},{l:"Start Point Sp.-dep. Damping",v:"0 km/h"}]},{t:"Game Force Effects",r:[{l:"Game Spring",v:"0%"},{l:"Game Damping",v:"0%"},{l:"Game Inertia",v:"0%"},{l:"Game Friction",v:"0%"}]},{t:"FFB Curve & Equalizer",r:[{l:"FFB Effect Equalizer",v:"All 100% (linear)"},{l:"Base FFB Curve",v:"Linear"}]}]},
+ // PXN
+ {id:"pxn_vd4",brand:"PXN",name:"VD4",nm:"4–5Nm",
+  ig:[{g:"64%",l:"0%",f:"22–25%",d:"35%"},{g:"70%",l:"0%",f:"20%",d:"40%"},{g:"56%",l:"0%",f:"26%",d:"40%"},{g:"56%",l:"0%",f:"18%",d:"40%"}],
+  gr:[{t:"Basic Settings",r:[{l:"Limit Strength",v:"Hard"},{l:"Lock Angle",v:"900°"},{l:"Max Rotation Speed",v:"100%"},{l:"Force Feedback",v:"100%"},{l:"Reverse",v:"OFF"},{l:"Mechanical Max Torque",v:"100%"},{l:"Mechanical Inertia",v:"0%"},{l:"Mechanical Friction",v:"12%"},{l:"Mechanical Damping",v:"0%"}]},{t:"Advanced — D-Input Parameters",r:[{l:"Game Damping",v:"100%"},{l:"Tire Self-Aligning Torque",v:"100%"},{l:"Game Friction",v:"100%"}]},{t:"Advanced Parameters",r:[{l:"Filter Level",v:"0–50%",n:"Find the ideal value to avoid vibrations"},{l:"Feedback Detail",v:"0%"},{l:"Mechanical Centering",v:"0%"}]}]},
+ {id:"pxn_vd6",brand:"PXN",name:"VD6",nm:"6–7Nm",
+  ig:[{g:"60%",l:"0%",f:"22–25%",d:"35%"},{g:"65%",l:"0%",f:"20%",d:"40%"},{g:"52%",l:"0%",f:"26%",d:"40%"},{g:"52%",l:"0%",f:"18%",d:"40%"}],
+  gr:[{t:"Basic Settings",r:[{l:"Limit Strength",v:"Hard"},{l:"Lock Angle",v:"900°"},{l:"Max Rotation Speed",v:"100%"},{l:"Force Feedback",v:"90–100%"},{l:"Reverse",v:"OFF"},{l:"Mechanical Max Torque",v:"100%"},{l:"Mechanical Inertia",v:"0%"},{l:"Mechanical Friction",v:"8%"},{l:"Mechanical Damping",v:"0%"}]},{t:"Advanced — D-Input Parameters",r:[{l:"Game Damping",v:"100%"},{l:"Tire Self-Aligning Torque",v:"100%"},{l:"Game Friction",v:"100%"}]},{t:"Advanced Parameters",r:[{l:"Filter Level",v:"0–50%",n:"Find the ideal value to avoid vibrations"},{l:"Feedback Detail",v:"0%"},{l:"Mechanical Centering",v:"0%"}]}]},
+ {id:"pxn_vd10",brand:"PXN",name:"VD10",nm:"10–12Nm",
+  ig:[{g:"60%",l:"0%",f:"22–25%",d:"35%"},{g:"65%",l:"0%",f:"20%",d:"40%"},{g:"52%",l:"0%",f:"26%",d:"40%"},{g:"52%",l:"0%",f:"18%",d:"40%"}],
+  gr:[{t:"Basic Settings",r:[{l:"Limit Strength",v:"Hard"},{l:"Lock Angle",v:"900°"},{l:"Max Rotation Speed",v:"100%"},{l:"Force Feedback",v:"100%"},{l:"Reverse",v:"OFF"},{l:"Mechanical Max Torque",v:"100%"},{l:"Mechanical Inertia",v:"0%"},{l:"Mechanical Friction",v:"8%"},{l:"Mechanical Damping",v:"0%"}]},{t:"Advanced — D-Input Parameters",r:[{l:"Game Damping",v:"100%"},{l:"Tire Self-Aligning Torque",v:"100%"},{l:"Game Friction",v:"100%"}]},{t:"Advanced Parameters",r:[{l:"Filter Level",v:"0–50%",n:"Find the ideal value to avoid vibrations"},{l:"Feedback Detail",v:"0%"},{l:"Mechanical Centering",v:"0%"}]}]},
+ // SIMUCUBE 2
+ {id:"sc2_pro",brand:"Simucube 2",name:"Pro",nm:"25Nm",
+  ig:[{g:"60%",l:"0%",f:"22–25%",d:"35%"},{g:"65%",l:"0%",f:"20%",d:"40%"},{g:"52%",l:"0%",f:"26%",d:"40%"},{g:"52%",l:"0%",f:"18%",d:"40%"}],
+  gr:[{t:"Basic Settings (Truedrive)",r:[{l:"Max Strength",v:"40%",n:"10Nm sweet spot — increase or decrease to taste"},{l:"Steering Range",v:"900"}]},{t:"Mechanical Feel",r:[{l:"Damping",v:"0%"},{l:"Friction",v:"8%"},{l:"Inertia",v:"0%",n:"Can be increased for very light wheels"},{l:"Centering Force",v:"0%"}]},{t:"Smoothness",r:[{l:"Reconstruction Filter",v:"4"},{l:"Slew Rate Limit",v:"OFF"},{l:"Torque Bandwidth",v:"∞"}]},{t:"Advanced",r:[{l:"Static Force Reduction",v:"3%",n:"Reduces high forces in curves, increases fine detail"},{l:"Ultra Low Latency",v:"0%"},{l:"Torque Linearity",v:"1.0"},{l:"Bumpstop Range",v:"900"},{l:"Bumpstop",v:"Hard"}]},{t:"Notch Filter",r:[{l:"Center Frequency (Hz)",v:"Off"}]},{t:"Game Effects",r:[{l:"Damping",v:"100"},{l:"Friction",v:"100"},{l:"Spring",v:"100"},{l:"Sine Wave",v:"100"},{l:"Square Wave",v:"100"},{l:"Sawtooth Wave",v:"100"},{l:"Triangle Wave",v:"100"}]}]},
+ {id:"sc2_sport",brand:"Simucube 2",name:"Sport",nm:"17Nm",
+  ig:[{g:"60%",l:"0%",f:"22–25%",d:"35%"},{g:"65%",l:"0%",f:"20%",d:"40%"},{g:"52%",l:"0%",f:"26%",d:"40%"},{g:"52%",l:"0%",f:"18%",d:"40%"}],
+  gr:[{t:"Basic Settings (Truedrive)",r:[{l:"Max Strength",v:"60%",n:"10Nm sweet spot — increase or decrease to taste"},{l:"Steering Range",v:"900"}]},{t:"Mechanical Feel",r:[{l:"Damping",v:"0%"},{l:"Friction",v:"8%"},{l:"Inertia",v:"0%",n:"Can be increased for very light wheels"},{l:"Centering Force",v:"0%"}]},{t:"Smoothness",r:[{l:"Reconstruction Filter",v:"4"},{l:"Slew Rate Limit",v:"OFF"},{l:"Torque Bandwidth",v:"∞"}]},{t:"Advanced",r:[{l:"Static Force Reduction",v:"3%",n:"Reduces high forces in curves. Rally Cars: 15–25%"},{l:"Ultra Low Latency",v:"0%"},{l:"Torque Linearity",v:"1.0"},{l:"Bumpstop Range",v:"900"},{l:"Bumpstop",v:"Hard"}]},{t:"Notch Filter",r:[{l:"Center Frequency (Hz)",v:"Off"}]},{t:"Game Effects",r:[{l:"Damping",v:"100"},{l:"Friction",v:"100"},{l:"Spring",v:"100"},{l:"Sine Wave",v:"100"},{l:"Square Wave",v:"100"},{l:"Sawtooth Wave",v:"100"},{l:"Triangle Wave",v:"100"}]}]},
+ // SIMAGIC
+ {id:"sm_mini",brand:"Simagic",name:"Alpha Mini",nm:"10Nm",
+  ig:[{g:"60%",l:"0%",f:"22–25%",d:"35%"},{g:"65%",l:"0%",f:"20%",d:"40%"},{g:"52%",l:"0%",f:"26%",d:"40%"},{g:"52%",l:"0%",f:"18%",d:"40%"}],
+  gr:[{t:"Steer Settings",r:[{l:"Angle",v:"900"},{l:"Hard Lock Angle",v:"900"},{l:"Limit Strength",v:"Normal"}]},{t:"Basic Settings",r:[{l:"Force Feedback",v:"100%"},{l:"Smoothness",v:"1"},{l:"Wheel Rotation Speed",v:"100%"},{l:"Feedback Detail",v:"0"}]},{t:"Mechanical",r:[{l:"Max. Torque",v:"10Nm"},{l:"Mechanical Damper",v:"0%"},{l:"Mechanical Friction",v:"10%"},{l:"Mechanical Inertia",v:"0%",n:"Can be increased for very light wheels"},{l:"Feedback Frequency",v:"0"}]},{t:"Other Effects",r:[{l:"Mechanical Spring",v:"0%"},{l:"Center Damper",v:"0%"},{l:"Game Inertia",v:"100"},{l:"Game Spring",v:"100"},{l:"Game Damper",v:"100"},{l:"Game Friction",v:"100"}]}]},
+ {id:"sm_alpha",brand:"Simagic",name:"Alpha",nm:"15Nm",
+  ig:[{g:"60%",l:"0%",f:"22–25%",d:"35%"},{g:"65%",l:"0%",f:"20%",d:"40%"},{g:"52%",l:"0%",f:"26%",d:"40%"},{g:"52%",l:"0%",f:"18%",d:"40%"}],
+  gr:[{t:"Steer Settings",r:[{l:"Angle",v:"900"},{l:"Hard Lock Angle",v:"900"},{l:"Limit Strength",v:"Normal"}]},{t:"Basic Settings",r:[{l:"Force Feedback",v:"67%",n:"10Nm sweet spot — increase or decrease to taste"},{l:"Smoothness",v:"1"},{l:"Wheel Rotation Speed",v:"100%"},{l:"Feedback Detail",v:"0"}]},{t:"Mechanical",r:[{l:"Max. Torque",v:"15Nm"},{l:"Mechanical Damper",v:"0%"},{l:"Mechanical Friction",v:"10%"},{l:"Mechanical Inertia",v:"0%",n:"Can be increased for very light wheels"},{l:"Feedback Frequency",v:"0"}]},{t:"Other Effects",r:[{l:"Mechanical Spring",v:"0%"},{l:"Center Damper",v:"0%"},{l:"Game Inertia",v:"100"},{l:"Game Spring",v:"100"},{l:"Game Damper",v:"100"},{l:"Game Friction",v:"100"}]}]},
+ {id:"sm_evosport",brand:"Simagic",name:"Alpha Evo Sport",nm:"9Nm",
+  ig:[{g:"60%",l:"0%",f:"22–25%",d:"35%"},{g:"65%",l:"0%",f:"20%",d:"40%"},{g:"52%",l:"0%",f:"26%",d:"40%"},{g:"52%",l:"0%",f:"18%",d:"40%"}],
+  gr:[{t:"Steer Settings",r:[{l:"Angle",v:"900"},{l:"Hard Lock Angle",v:"900"},{l:"Limit Strength",v:"Normal"}]},{t:"Basic Settings",r:[{l:"Force Feedback",v:"100%"},{l:"Filter Level",v:"0"},{l:"Wheel Rotation Speed",v:"100%"},{l:"Feedback Detail",v:"0"}]},{t:"Mechanical",r:[{l:"Dynamic Prediction Level",v:"0"},{l:"Mechanical Damper",v:"0%"},{l:"Mechanical Friction",v:"10%"},{l:"Mechanical Inertia",v:"0%",n:"Can be increased for very light wheels"},{l:"Slew Rate Control",v:"5%"}]},{t:"Other Effects",r:[{l:"Mechanical Spring",v:"0%"},{l:"Center Damper",v:"0%"},{l:"Game Inertia",v:"100"},{l:"Game Centering",v:"100"},{l:"Game Damper",v:"100"},{l:"Game Friction",v:"100"}]}]},
+ {id:"sm_evo",brand:"Simagic",name:"Alpha Evo",nm:"12Nm",
+  ig:[{g:"60%",l:"0%",f:"22–25%",d:"35%"},{g:"65%",l:"0%",f:"20%",d:"40%"},{g:"52%",l:"0%",f:"26%",d:"40%"},{g:"52%",l:"0%",f:"18%",d:"40%"}],
+  gr:[{t:"Steer Settings",r:[{l:"Angle",v:"900"},{l:"Hard Lock Angle",v:"900"},{l:"Limit Strength",v:"Normal"}]},{t:"Basic Settings",r:[{l:"Force Feedback",v:"84%",n:"10Nm sweet spot — increase or decrease to taste"},{l:"Filter Level",v:"0"},{l:"Wheel Rotation Speed",v:"100%"},{l:"Feedback Detail",v:"0"}]},{t:"Mechanical",r:[{l:"Dynamic Prediction Level",v:"0"},{l:"Mechanical Damper",v:"0%"},{l:"Mechanical Friction",v:"10%"},{l:"Mechanical Inertia",v:"0%",n:"Can be increased for very light wheels"},{l:"Slew Rate Control",v:"5%"}]},{t:"Other Effects",r:[{l:"Mechanical Spring",v:"0%"},{l:"Center Damper",v:"0%"},{l:"Game Inertia",v:"100"},{l:"Game Centering",v:"100"},{l:"Game Damper",v:"100"},{l:"Game Friction",v:"100"}]}]},
+ {id:"sm_evopro",brand:"Simagic",name:"Alpha Evo Pro",nm:"18Nm",
+  ig:[{g:"60%",l:"0%",f:"22–25%",d:"35%"},{g:"65%",l:"0%",f:"20%",d:"40%"},{g:"52%",l:"0%",f:"26%",d:"40%"},{g:"52%",l:"0%",f:"18%",d:"40%"}],
+  gr:[{t:"Steer Settings",r:[{l:"Angle",v:"900"},{l:"Hard Lock Angle",v:"900"},{l:"Limit Strength",v:"Normal"}]},{t:"Basic Settings",r:[{l:"Force Feedback",v:"56%",n:"10Nm sweet spot — increase or decrease to taste"},{l:"Filter Level",v:"0"},{l:"Wheel Rotation Speed",v:"100%"},{l:"Feedback Detail",v:"0"}]},{t:"Mechanical",r:[{l:"Dynamic Prediction Level",v:"0"},{l:"Steering Torque Assist",v:"3%",n:"Reduces high forces in curves, increases fine detail"},{l:"Mechanical Damper",v:"0%"},{l:"Mechanical Friction",v:"10%"},{l:"Mechanical Inertia",v:"0%",n:"Can be increased for very light wheels"},{l:"Slew Rate Control",v:"5%"}]},{t:"Other Effects",r:[{l:"Mechanical Spring",v:"0%"},{l:"Center Damper",v:"0%"},{l:"Game Inertia",v:"100"},{l:"Game Centering",v:"100"},{l:"Game Damper",v:"100"},{l:"Game Friction",v:"100"}]}]},
+ {id:"sm_evoultra",brand:"Simagic",name:"Evo Ultra",nm:"28Nm",
+  ig:[{g:"60%",l:"0%",f:"22–25%",d:"35%"},{g:"65%",l:"0%",f:"20%",d:"40%"},{g:"52%",l:"0%",f:"26%",d:"40%"},{g:"52%",l:"0%",f:"18%",d:"40%"}],
+  gr:[{t:"Steer Settings",r:[{l:"Angle",v:"900"},{l:"Hard Lock Angle",v:"900"},{l:"Limit Strength",v:"Normal"}]},{t:"Basic Settings",r:[{l:"Force Feedback",v:"36%",n:"10Nm sweet spot — increase or decrease to taste"},{l:"Filter Level",v:"0"},{l:"Wheel Rotation Speed",v:"100%"},{l:"Feedback Detail",v:"0"}]},{t:"Mechanical",r:[{l:"Dynamic Prediction Level",v:"0"},{l:"Steering Torque Assist",v:"3%",n:"Reduces high forces in curves, increases fine detail"},{l:"Mechanical Damper",v:"0%"},{l:"Mechanical Friction",v:"12%"},{l:"Mechanical Inertia",v:"0%",n:"Can be increased for very light wheels"},{l:"Slew Rate Control",v:"5%"}]},{t:"Other Effects",r:[{l:"Mechanical Spring",v:"0%"},{l:"Center Damper",v:"0%"},{l:"Game Inertia",v:"100"},{l:"Game Centering",v:"100"},{l:"Game Damper",v:"100"},{l:"Game Friction",v:"100"}]}]},
+ {id:"sm_ult",brand:"Simagic",name:"Ultimate",nm:"23Nm",
+  ig:[{g:"60%",l:"0%",f:"22–25%",d:"35%"},{g:"65%",l:"0%",f:"20%",d:"40%"},{g:"52%",l:"0%",f:"26%",d:"40%"},{g:"52%",l:"0%",f:"18%",d:"40%"}],
+  gr:[{t:"Steer Settings",r:[{l:"Angle",v:"900"},{l:"Hard Lock Angle",v:"900"},{l:"Limit Strength",v:"Normal"}]},{t:"Basic Settings",r:[{l:"Force Feedback",v:"44%",n:"10Nm sweet spot — increase or decrease to taste"},{l:"Smoothness",v:"1"},{l:"Wheel Rotation Speed",v:"100%"},{l:"Feedback Detail",v:"0"}]},{t:"Mechanical",r:[{l:"Max. Torque",v:"23Nm"},{l:"Mechanical Damper",v:"0%"},{l:"Mechanical Friction",v:"10%"},{l:"Mechanical Inertia",v:"0%",n:"Can be increased for very light wheels"},{l:"Feedback Frequency",v:"0"}]},{t:"Other Effects",r:[{l:"Mechanical Spring",v:"0%"},{l:"Center Damper",v:"0%"},{l:"Game Inertia",v:"100"},{l:"Game Spring",v:"100"},{l:"Game Damper",v:"100"},{l:"Game Friction",v:"100"}]}]},
+ // THRUSTMASTER
+ {id:"tm_t128",brand:"Thrustmaster",name:"T128",nm:"2.5Nm",
+  ig:[{g:"100%",l:"5%",f:"33%",d:"40%"},{g:"100%",l:"5%",f:"32%",d:"40%"},{g:"94%",l:"5%",f:"33%",d:"40%"},{g:"94%",l:"5%",f:"30%",d:"40%"}],
+  gr:[{t:"Base Settings",r:[{l:"Rotation",v:"900"},{l:"Overall Strength of All Forces",v:"100%"},{l:"Constant",v:"100%"},{l:"Periodic",v:"100%"},{l:"Spring",v:"0%"},{l:"Damper",v:"100%"},{l:"BOOST (Constant + Spring)",v:"OFF"},{l:"Auto-Center Settings",v:"By the Game 50%"}]}]},
+ {id:"tm_t150",brand:"Thrustmaster",name:"T150",nm:"2Nm",
+  ig:[{g:"100%",l:"5%",f:"34%",d:"40%"},{g:"100%",l:"5%",f:"33%",d:"40%"},{g:"100%",l:"5%",f:"34%",d:"40%"},{g:"100%",l:"5%",f:"32%",d:"40%"}],
+  gr:[{t:"Base Settings",r:[{l:"Rotation",v:"900"},{l:"Overall Strength of All Forces",v:"100%"},{l:"Constant",v:"100%"},{l:"Periodic",v:"100%"},{l:"Spring",v:"0%"},{l:"Damper",v:"100%"},{l:"BOOST (Constant + Spring)",v:"OFF"},{l:"Auto-Center Settings",v:"By the Game 50%"}]}]},
+ {id:"tm_t248",brand:"Thrustmaster",name:"T248",nm:"3.4Nm",
+  ig:[{g:"70%",l:"0%",f:"32%",d:"35%"},{g:"75%",l:"0%",f:"30%",d:"40%"},{g:"64%",l:"0%",f:"32%",d:"40%"},{g:"64%",l:"0%",f:"30%",d:"40%"}],
+  gr:[{t:"Base Settings",r:[{l:"Dynamic Force Feedback",v:"FFB 1",n:"Force Feedback 100% proportional to force requested by game"},{l:"Rotation",v:"900"},{l:"Overall Strength of All Forces",v:"100%"},{l:"Constant",v:"100%"},{l:"Periodic",v:"100%"},{l:"Spring",v:"0%"},{l:"Damper",v:"100%"},{l:"BOOST (Constant + Spring)",v:"OFF"},{l:"Auto-Center Settings",v:"By the Game 50%"}]}]},
+ {id:"tm_t300",brand:"Thrustmaster",name:"T300 RS",nm:"4Nm",
+  ig:[{g:"62%",l:"0%",f:"30%",d:"35%"},{g:"67%",l:"0%",f:"25%",d:"40%"},{g:"54%",l:"0%",f:"32%",d:"40%"},{g:"54%",l:"0%",f:"25%",d:"40%"}],
+  gr:[{t:"Base Settings",r:[{l:"Rotation",v:"900"},{l:"Overall Strength of All Forces",v:"100%"},{l:"Constant",v:"100%"},{l:"Periodic",v:"100%"},{l:"Spring",v:"0%"},{l:"Damper",v:"100%"},{l:"BOOST (Constant + Spring)",v:"OFF"},{l:"Auto-Center Settings",v:"By the Game 50%"}]}]},
+ {id:"tm_t500",brand:"Thrustmaster",name:"T500",nm:"5Nm",
+  ig:[{g:"60%",l:"0%",f:"30%",d:"35%"},{g:"65%",l:"0%",f:"25%",d:"40%"},{g:"52%",l:"0%",f:"32%",d:"40%"},{g:"52%",l:"0%",f:"25%",d:"40%"}],
+  gr:[{t:"Base Settings",r:[{l:"Rotation",v:"900"},{l:"Overall Strength of All Forces",v:"90–100%"},{l:"Constant",v:"100%"},{l:"Periodic",v:"100%"},{l:"Spring",v:"0%"},{l:"Damper",v:"100%"},{l:"BOOST (Constant + Spring)",v:"OFF"},{l:"Auto-Center Settings",v:"By the Game 50%"}]}]},
+ {id:"tm_t598",brand:"Thrustmaster",name:"T598",nm:"5Nm",
+  ig:[{g:"60%",l:"0%",f:"22–25%",d:"35%"},{g:"65%",l:"0%",f:"20%",d:"40%"},{g:"52%",l:"0%",f:"26%",d:"40%"},{g:"52%",l:"0%",f:"18%",d:"40%"}],
+  gr:[{t:"Base Settings — TM Panel",r:[{l:"Master Gain",v:"100%"},{l:"Damper",v:"0%"},{l:"Mode",v:"Extreme"},{l:"Rotation Angle",v:"900",n:"Caution: 900° not possible with 'My Thrustmaster app' — use 225° instead"},{l:"End Stop",v:"High"},{l:"Boost Low",v:"-1"},{l:"Boost High",v:"-1"},{l:"Speed",v:"EXT"},{l:"Inertia",v:"OFF"},{l:"Gear Jolt",v:"OFF / Low / Mid",n:"According to personal taste"},{l:"Lighting Mode",v:"Telemetry"}]}]},
+ {id:"tm_t818",brand:"Thrustmaster",name:"T818",nm:"10Nm",
+  ig:[{g:"60%",l:"0%",f:"22–25%",d:"28%"},{g:"65%",l:"0%",f:"20%",d:"40%"},{g:"52%",l:"0%",f:"26%",d:"40%"},{g:"52%",l:"0%",f:"18%",d:"40%"}],
+  gr:[{t:"Base Settings — TM Panel",r:[{l:"Master Gain",v:"100%",n:"10Nm is optimal — keep or decrease to taste"},{l:"Damper",v:"0%"},{l:"Mode",v:"Extreme"},{l:"Rotation Angle",v:"900",n:"Caution: 900° not possible with 'My Thrustmaster app' — use 225° instead"},{l:"End Stop",v:"High"},{l:"Boost Low",v:"-1"},{l:"Boost High",v:"-1"},{l:"Speed",v:"EXT"},{l:"Inertia",v:"OFF"},{l:"Gear Jolt",v:"OFF / Low / Mid",n:"According to personal taste"},{l:"Lighting Mode",v:"Telemetry"}]}]},
+ {id:"tm_tgt",brand:"Thrustmaster",name:"T-GT / T-GT II / TS-PC / TS-XW",nm:"6Nm",
+  ig:[{g:"60%",l:"0%",f:"22–25%",d:"35%"},{g:"65%",l:"0%",f:"25%",d:"40%"},{g:"52%",l:"0%",f:"28%",d:"40%"},{g:"52%",l:"0%",f:"24%",d:"40%"}],
+  gr:[{t:"Base Settings",r:[{l:"Rotation",v:"900"},{l:"Overall Strength of All Forces",v:"80–100%",n:"Adjust to personal taste"},{l:"Constant",v:"100%"},{l:"Periodic",v:"100%"},{l:"Spring",v:"0%"},{l:"Damper",v:"100%"},{l:"BOOST (Constant + Spring)",v:"OFF"},{l:"Auto-Center Settings",v:"By the Game 50%"}]}]},
+ // VNM
+ {id:"vnm_xt",brand:"VNM",name:"Xtreme",nm:"32Nm",
+  ig:[{g:"60%",l:"0%",f:"22–25%",d:"35%"},{g:"65%",l:"0%",f:"20%",d:"40%"},{g:"52%",l:"0%",f:"26%",d:"40%"},{g:"52%",l:"0%",f:"18%",d:"40%"}],
+  gr:[{t:"Basic",r:[{l:"Steering Range",v:"900"},{l:"Max Torque Mode",v:"ON"},{l:"Overall Gain",v:"31%",n:"10Nm sweet spot — increase or decrease to taste"},{l:"Overall Filter",v:"410",n:"Most important control — can significantly change the feeling"}]},{t:"User Effects",r:[{l:"Damper Gain",v:"0"},{l:"Friction Gain",v:"8%"},{l:"Inertia Gain",v:"0"},{l:"Spring Gain",v:"0"}]},{t:"Advanced",r:[{l:"Crash Effect Reduction",v:"OFF"},{l:"DI Ratio",v:"Off"},{l:"Damper Filter",v:"0"},{l:"Inertia Filter",v:"0"},{l:"Friction Filter",v:"0"},{l:"Bumpstop Range",v:"910"},{l:"Lock Strength",v:"10000"}]},{t:"FFB Mode & Telemetry",r:[{l:"FFB Mode",v:"Directinput"},{l:"Telemetry",v:"OFF (No Telemetry Mode)"}]},{t:"Game Settings",r:[{l:"Constant Gain",v:"100"},{l:"Ramp Gain",v:"100"},{l:"Spring Gain",v:"100"},{l:"Damper Gain",v:"100"},{l:"Inertia Gain",v:"100"},{l:"Friction Gain",v:"100"},{l:"Square Gain",v:"100"},{l:"Triangle Gain",v:"100"},{l:"Sine Gain",v:"100"},{l:"Sawtooth Up Gain",v:"100"},{l:"Sawtooth Down Gain",v:"100"}]}]},
+ {id:"vnm_sp",brand:"VNM",name:"Supreme",nm:"25Nm",
+  ig:[{g:"60%",l:"0%",f:"22–25%",d:"35%"},{g:"65%",l:"0%",f:"20%",d:"40%"},{g:"52%",l:"0%",f:"26%",d:"40%"},{g:"52%",l:"0%",f:"18%",d:"40%"}],
+  gr:[{t:"Basic",r:[{l:"Steering Range",v:"900"},{l:"Max Torque Mode",v:"ON"},{l:"Overall Gain",v:"40%",n:"10Nm sweet spot — increase or decrease to taste"},{l:"Overall Filter",v:"410",n:"Most important control — can significantly change the feeling"}]},{t:"User Effects",r:[{l:"Damper Gain",v:"0"},{l:"Friction Gain",v:"8%"},{l:"Inertia Gain",v:"0"},{l:"Spring Gain",v:"0"}]},{t:"Advanced",r:[{l:"Crash Effect Reduction",v:"OFF"},{l:"DI Ratio",v:"Off"},{l:"Damper Filter",v:"0"},{l:"Inertia Filter",v:"0"},{l:"Friction Filter",v:"0"},{l:"Bumpstop Range",v:"910"},{l:"Lock Strength",v:"10000"}]},{t:"FFB Mode & Telemetry",r:[{l:"FFB Mode",v:"Directinput"},{l:"Telemetry",v:"OFF (No Telemetry Mode)"}]},{t:"Game Settings",r:[{l:"Constant Gain",v:"100"},{l:"Ramp Gain",v:"100"},{l:"Spring Gain",v:"100"},{l:"Damper Gain",v:"100"},{l:"Inertia Gain",v:"100"},{l:"Friction Gain",v:"100"},{l:"Square Gain",v:"100"},{l:"Triangle Gain",v:"100"},{l:"Sine Gain",v:"100"},{l:"Sawtooth Up Gain",v:"100"},{l:"Sawtooth Down Gain",v:"100"}]}]},
+ {id:"vnm_el",brand:"VNM",name:"Elite",nm:"18Nm",
+  ig:[{g:"60%",l:"0%",f:"22–25%",d:"35%"},{g:"65%",l:"0%",f:"20%",d:"40%"},{g:"52%",l:"0%",f:"26%",d:"40%"},{g:"52%",l:"0%",f:"18%",d:"40%"}],
+  gr:[{t:"Basic",r:[{l:"Steering Range",v:"900"},{l:"Max Torque Mode",v:"ON"},{l:"Overall Gain",v:"55%",n:"10Nm sweet spot — increase or decrease to taste"},{l:"Overall Filter",v:"410",n:"Most important control — can significantly change the feeling"}]},{t:"User Effects",r:[{l:"Damper Gain",v:"0"},{l:"Friction Gain",v:"8%"},{l:"Inertia Gain",v:"0"},{l:"Spring Gain",v:"0"}]},{t:"Advanced",r:[{l:"Crash Effect Reduction",v:"OFF"},{l:"DI Ratio",v:"Off"},{l:"Damper Filter",v:"0"},{l:"Inertia Filter",v:"0"},{l:"Friction Filter",v:"0"},{l:"Bumpstop Range",v:"910"},{l:"Lock Strength",v:"10000"}]},{t:"FFB Mode & Telemetry",r:[{l:"FFB Mode",v:"Directinput"},{l:"Telemetry",v:"OFF (No Telemetry Mode)"}]},{t:"Game Settings",r:[{l:"Constant Gain",v:"100"},{l:"Ramp Gain",v:"100"},{l:"Spring Gain",v:"100"},{l:"Damper Gain",v:"100"},{l:"Inertia Gain",v:"100"},{l:"Friction Gain",v:"100"},{l:"Square Gain",v:"100"},{l:"Triangle Gain",v:"100"},{l:"Sine Gain",v:"100"},{l:"Sawtooth Up Gain",v:"100"},{l:"Sawtooth Down Gain",v:"100"}]}]},
+ {id:"vnm_pr",brand:"VNM",name:"Premier",nm:"13Nm",
+  ig:[{g:"60%",l:"0%",f:"22–25%",d:"35%"},{g:"65%",l:"0%",f:"20%",d:"40%"},{g:"52%",l:"0%",f:"26%",d:"40%"},{g:"52%",l:"0%",f:"18%",d:"40%"}],
+  gr:[{t:"Basic",r:[{l:"Steering Range",v:"900"},{l:"Max Torque Mode",v:"ON"},{l:"Overall Gain",v:"77%",n:"10Nm sweet spot — increase or decrease to taste"},{l:"Overall Filter",v:"410",n:"Most important control — can significantly change the feeling"}]},{t:"User Effects",r:[{l:"Damper Gain",v:"0"},{l:"Friction Gain",v:"8%"},{l:"Inertia Gain",v:"0"},{l:"Spring Gain",v:"0"}]},{t:"Advanced",r:[{l:"Crash Effect Reduction",v:"OFF"},{l:"DI Ratio",v:"Off"},{l:"Damper Filter",v:"0"},{l:"Inertia Filter",v:"0"},{l:"Friction Filter",v:"0"},{l:"Bumpstop Range",v:"910"},{l:"Lock Strength",v:"10000"}]},{t:"FFB Mode & Telemetry",r:[{l:"FFB Mode",v:"Directinput"},{l:"Telemetry",v:"OFF (No Telemetry Mode)"}]},{t:"Game Settings",r:[{l:"Constant Gain",v:"100"},{l:"Ramp Gain",v:"100"},{l:"Spring Gain",v:"100"},{l:"Damper Gain",v:"100"},{l:"Inertia Gain",v:"100"},{l:"Friction Gain",v:"100"},{l:"Square Gain",v:"100"},{l:"Triangle Gain",v:"100"},{l:"Sine Gain",v:"100"},{l:"Sawtooth Up Gain",v:"100"},{l:"Sawtooth Down Gain",v:"100"}]}]},
+ // VRS
+ {id:"vrs_dfp15",brand:"VRS",name:"DFP15",nm:"15Nm",
+  ig:[{g:"60%",l:"0%",f:"22–25%",d:"35%"},{g:"65%",l:"0%",f:"20%",d:"40%"},{g:"52%",l:"0%",f:"26%",d:"40%"},{g:"52%",l:"0%",f:"18%",d:"40%"}],
+  gr:[{t:"Basic Settings",r:[{l:"Rotation Degrees",v:"900"},{l:"End Stop Max Force",v:"100%"},{l:"End Stop Stiffness",v:"5"},{l:"Soft End Stop",v:"OFF"}]},{t:"General",r:[{l:"Max Force",v:"67%",n:"10Nm sweet spot — increase or decrease to taste"},{l:"Static Force Reduction",v:"4%"},{l:"Non Linearity",v:"0%"}]},{t:"Effects",r:[{l:"Damping",v:"0%"},{l:"Friction",v:"8%"},{l:"Inertia",v:"0%"},{l:"Spring",v:"0%"}]},{t:"Force Feedback Shaping",r:[{l:"Mode",v:"Legacy",n:"In Advanced mode, set to personal preferences"},{l:"Slew Rate",v:"Performance"},{l:"Smoothing",v:"Soft 2 or 3"}]}]},
+ {id:"vrs_dfp20",brand:"VRS",name:"DFP20",nm:"20Nm",
+  ig:[{g:"60%",l:"0%",f:"22–25%",d:"35%"},{g:"65%",l:"0%",f:"20%",d:"40%"},{g:"52%",l:"0%",f:"26%",d:"40%"},{g:"52%",l:"0%",f:"18%",d:"40%"}],
+  gr:[{t:"Basic Settings",r:[{l:"Rotation Degrees",v:"900"},{l:"End Stop Max Force",v:"100%"},{l:"End Stop Stiffness",v:"5"},{l:"Soft End Stop",v:"OFF"}]},{t:"General",r:[{l:"Max Force",v:"50%",n:"10Nm sweet spot — increase or decrease to taste"},{l:"Static Force Reduction",v:"4%"},{l:"Non Linearity",v:"0%"}]},{t:"Effects",r:[{l:"Damping",v:"0%"},{l:"Friction",v:"8%"},{l:"Inertia",v:"0%"},{l:"Spring",v:"0%"}]},{t:"Force Feedback Shaping",r:[{l:"Mode",v:"Legacy",n:"In Advanced mode, set to personal preferences"},{l:"Slew Rate",v:"Performance"},{l:"Smoothing",v:"Soft 2 or 3"}]}]},
+ {id:"vrs_u6",brand:"VRS",name:"uDFP6",nm:"6Nm",
+  ig:[{g:"62%",l:"0%",f:"22–25%",d:"35%"},{g:"65%",l:"0%",f:"20%",d:"40%"},{g:"54%",l:"0%",f:"26%",d:"40%"},{g:"54%",l:"0%",f:"18%",d:"40%"}],
+  gr:[{t:"Basic Settings",r:[{l:"Rotation Degrees",v:"900"},{l:"End Stop Max Force",v:"100%"},{l:"End Stop Stiffness",v:"5"},{l:"Soft End Stop",v:"OFF"}]},{t:"General",r:[{l:"Max Force",v:"100%"},{l:"Static Force Reduction",v:"0%"},{l:"Non Linearity",v:"0%"}]},{t:"Effects",r:[{l:"Damping",v:"0%"},{l:"Friction",v:"10%"},{l:"Inertia",v:"0%"},{l:"Spring",v:"0%"}]},{t:"Force Feedback Shaping",r:[{l:"Mode",v:"Legacy",n:"In Advanced mode, set to personal preferences"},{l:"Slew Rate",v:"Performance"},{l:"Smoothing",v:"Soft 2 or 3"}]}]},
+ {id:"vrs_u9",brand:"VRS",name:"uDFP9",nm:"9Nm",
+  ig:[{g:"60%",l:"0%",f:"22–25%",d:"35%"},{g:"65%",l:"0%",f:"20%",d:"40%"},{g:"52%",l:"0%",f:"26%",d:"40%"},{g:"52%",l:"0%",f:"18%",d:"40%"}],
+  gr:[{t:"Basic Settings",r:[{l:"Rotation Degrees",v:"900"},{l:"End Stop Max Force",v:"100%"},{l:"End Stop Stiffness",v:"5"},{l:"Soft End Stop",v:"OFF"}]},{t:"General",r:[{l:"Max Force",v:"100%"},{l:"Static Force Reduction",v:"3%"},{l:"Non Linearity",v:"0%"}]},{t:"Effects",r:[{l:"Damping",v:"0%"},{l:"Friction",v:"8%"},{l:"Inertia",v:"0%"},{l:"Spring",v:"0%"}]},{t:"Force Feedback Shaping",r:[{l:"Mode",v:"Legacy",n:"In Advanced mode, set to personal preferences"},{l:"Slew Rate",v:"Performance"},{l:"Smoothing",v:"Soft 2 or 3"}]}]},
+ {id:"vrs_u12",brand:"VRS",name:"uDFP12",nm:"12Nm",
+  ig:[{g:"60%",l:"0%",f:"22–25%",d:"35%"},{g:"65%",l:"0%",f:"20%",d:"40%"},{g:"52%",l:"0%",f:"26%",d:"40%"},{g:"52%",l:"0%",f:"18%",d:"40%"}],
+  gr:[{t:"Basic Settings",r:[{l:"Rotation Degrees",v:"900"},{l:"End Stop Max Force",v:"100%"},{l:"End Stop Stiffness",v:"5"},{l:"Soft End Stop",v:"OFF"}]},{t:"General",r:[{l:"Max Force",v:"84%",n:"10Nm sweet spot — increase or decrease to taste"},{l:"Static Force Reduction",v:"4%"},{l:"Non Linearity",v:"0%"}]},{t:"Effects",r:[{l:"Damping",v:"0%"},{l:"Friction",v:"8%"},{l:"Inertia",v:"0%"},{l:"Spring",v:"0%"}]},{t:"Force Feedback Shaping",r:[{l:"Mode",v:"Legacy",n:"In Advanced mode, set to personal preferences"},{l:"Slew Rate",v:"Performance"},{l:"Smoothing",v:"Soft 2 or 3"}]}]},
+ {id:"vrs_u15",brand:"VRS",name:"uDFP15",nm:"15Nm",
+  ig:[{g:"60%",l:"0%",f:"22–25%",d:"35%"},{g:"65%",l:"0%",f:"20%",d:"40%"},{g:"52%",l:"0%",f:"26%",d:"40%"},{g:"52%",l:"0%",f:"18%",d:"40%"}],
+  gr:[{t:"Basic Settings",r:[{l:"Rotation Degrees",v:"900"},{l:"End Stop Max Force",v:"100%"},{l:"End Stop Stiffness",v:"5"},{l:"Soft End Stop",v:"OFF"}]},{t:"General",r:[{l:"Max Force",v:"67%",n:"10Nm sweet spot — increase or decrease to taste"},{l:"Static Force Reduction",v:"4%"},{l:"Non Linearity",v:"0%"}]},{t:"Effects",r:[{l:"Damping",v:"0%"},{l:"Friction",v:"8%"},{l:"Inertia",v:"0%"},{l:"Spring",v:"0%"}]},{t:"Force Feedback Shaping",r:[{l:"Mode",v:"Legacy",n:"In Advanced mode, set to personal preferences"},{l:"Slew Rate",v:"Performance"},{l:"Smoothing",v:"Soft 2 or 3"}]}]},
+ {id:"vrs_u20",brand:"VRS",name:"uDFP20",nm:"20Nm",
+  ig:[{g:"60%",l:"0%",f:"22–25%",d:"35%"},{g:"65%",l:"0%",f:"20%",d:"40%"},{g:"52%",l:"0%",f:"26%",d:"40%"},{g:"52%",l:"0%",f:"18%",d:"40%"}],
+  gr:[{t:"Basic Settings",r:[{l:"Rotation Degrees",v:"900"},{l:"End Stop Max Force",v:"100%"},{l:"End Stop Stiffness",v:"5"},{l:"Soft End Stop",v:"OFF"}]},{t:"General",r:[{l:"Max Force",v:"50%",n:"10Nm sweet spot — increase or decrease to taste"},{l:"Static Force Reduction",v:"4%"},{l:"Non Linearity",v:"0%"}]},{t:"Effects",r:[{l:"Damping",v:"0%"},{l:"Friction",v:"8%"},{l:"Inertia",v:"0%"},{l:"Spring",v:"0%"}]},{t:"Force Feedback Shaping",r:[{l:"Mode",v:"Legacy",n:"In Advanced mode, set to personal preferences"},{l:"Slew Rate",v:"Performance"},{l:"Smoothing",v:"Soft 2 or 3"}]}]},
+];
+
+B.sort((a,b)=>{const ka=(a.brand+' '+a.name).toLowerCase(),kb=(b.brand+' '+b.name).toLowerCase();return ka<kb?-1:ka>kb?1:0;});
+
+const VT=[
+  {label:"Standard (GT3/GT4/GT1/LMDh…)",short:"Standard"},
+  {label:"Karts (incl. Superkart)",short:"Karts"},
+  {label:"Off-Road (Formula Dirt / Kart Cross / RX)",short:"Off-Road"},
+  {label:"Street Cars (Super / Hyper / TS Cup)",short:"Street Cars"},
+];
+let cv=0;
+
+const sel=document.getElementById('baseSelect');
+let lb='';
+B.forEach(b=>{
+  if(b.brand!==lb){const og=document.createElement('optgroup');og.label=b.brand;sel.appendChild(og);lb=b.brand;}
+  const op=document.createElement('option');op.value=b.id;op.textContent=b.name+' ('+b.nm+')';sel.lastChild.appendChild(op);
+});
+
+function showBase(id){
+  const b=B.find(x=>x.id===id);
+  if(!b){document.getElementById('placeholder').style.display='block';document.getElementById('panel').style.display='none';return;}
+  document.getElementById('placeholder').style.display='none';
+  document.getElementById('panel').style.display='block';
+  document.getElementById('baseNameTitle').textContent=b.brand+' '+b.name;
+  document.getElementById('baseNmBadge').textContent=b.nm;
+  buildTabs(b);renderIG(b);renderSet(b);
+}
+function buildTabs(b){
+  const tabs=document.getElementById('vehicleTabs');tabs.innerHTML='';
+  VT.forEach((v,i)=>{const btn=document.createElement('button');btn.className='vtab'+(i===cv?' active':'');btn.textContent=v.short;btn.title=v.label;btn.onclick=()=>selV(i);tabs.appendChild(btn);});
+}
+function selV(i){
+  cv=i;const id=document.getElementById('baseSelect').value;const b=B.find(x=>x.id===id);if(!b)return;
+  document.querySelectorAll('.vtab').forEach((t,j)=>t.classList.toggle('active',j===i));renderIG(b);
+}
+function renderIG(b){
+  const ig=b.ig[cv];
+  document.getElementById('igGrid').innerHTML=
+    `<div class="igval-card"><div class="igval-label">Gain</div><div class="igval-value">${ig.g}</div></div>`+
+    `<div class="igval-card"><div class="igval-label">LFB</div><div class="igval-value">${ig.l}</div></div>`+
+    `<div class="igval-card"><div class="igval-label">FX</div><div class="igval-value">${ig.f}</div></div>`+
+    `<div class="igval-card"><div class="igval-label">Damping</div><div class="igval-value">${ig.d}</div></div>`;
+}
+function renderSet(b){
+  const g=document.getElementById('settingsGrid');g.innerHTML='';
+  b.gr.forEach(gr=>{
+    let rows='';
+    gr.r.forEach(r=>{
+      rows+=`<div class="setting-row"><span class="s-label">${r.l}</span><span class="s-value">${r.v}</span></div>`;
+      if(r.n)rows+=`<div class="s-note">ℹ ${r.n}</div>`;
+    });
+    g.innerHTML+=`<div class="settings-group"><div class="group-title">${gr.t}</div><div class="group-rows">${rows}</div></div>`;
+  });
+}
+</script>
+</body>
+</html>
